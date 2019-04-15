@@ -73,6 +73,8 @@ BasicGame.Boot.prototype = {
                 //game.add.tween(cube).to({ isoZ: 10 }, 100 * ((xx + yy) % 10), Phaser.Easing.Quadratic.InOut, true, 0, Infinity, true);
             }
         }
+
+	var enemyTest = new Enemy ( new Vector2 ( 256, 256 ) );
         
         var mobs;
         mobs = game.add.isoSprite(128,128,0,'cube3',0,isoGroup2);
