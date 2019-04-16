@@ -6,11 +6,13 @@ class Vector2
 		this.y = y;
 	}
 
+	//	Add another vector to this
 	add ( rhand )
 	{
 		return new Vector2 ( this.x + rhand.x, this.y + rhand.y );
 	}
 
+	//	Subtract another vector from this
 	sub ( rhand )
 	{
 		return new Vector2 ( this.x - rhand.x, this.y - rhand.y );
