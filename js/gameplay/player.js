@@ -16,4 +16,9 @@ class Player
 		game.physics.isoArcade.enable ( this.sprite );
 		this.sprite.body.collideWorldBounds = true;
 	}
+
+	get position ( )
+	{
+		return new Vector2 ( this.sprite.x, this.sprite.y );
+	}
 }

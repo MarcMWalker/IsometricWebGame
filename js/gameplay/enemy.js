@@ -11,7 +11,7 @@ class Enemy
 		this.sprite = game.add.isoSprite ( position.x, position.y, 0, "cube2", 0, isoGroup2 );
 	}
 
-	position ( )
+	get position ( )
 	{
 		return new Vector2 ( this.sprite.x, this.sprite.y );
 	}
@@ -19,7 +19,7 @@ class Enemy
 	update ( )
 	{
 		//	Get Player position
-		var distance = this.position ( ).sub ( player.position ( ) );
+		var distance = this.position.sub ( player.position );
 
 		//	Calculate distance to player
 	}
