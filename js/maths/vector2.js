@@ -27,6 +27,6 @@ class Vector2
 	//	Norm of this vector
 	magnitude ( )
 	{
-		return Math.sqrt ( x * x + y * y );
+		return Math.sqrt ( this.x * this.x + this.y * this.y );
 	}
 }
