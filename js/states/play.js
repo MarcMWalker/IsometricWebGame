@@ -4,11 +4,17 @@ var BasicGame = function (game) { };
 
 BasicGame.Boot = function (game) { };
 
+/*
+ * 	TODO: After enemy array length has reached zero, increase wave number and spawn another set of enemies.
+ * */
+
 //Woking on splitting up isogroups to provide more adequate game structure
 var mapGroup;
 var wallGroup, wall;
 var isoGroup2, player;
-var enemyGroup, enemy;
+var enemyGroup;
+
+var enemies = [ ];
 
 BasicGame.Boot.prototype = {
 	preload: function () {
@@ -65,12 +71,15 @@ BasicGame.Boot.prototype = {
 			}
 		}
 
+		//	Generate First Wave Of Enemies
 		for ( var i = 0; i < 5; ++i )
 		{
-			var enemyTest = new Enemy ( new Vector2 ( ( 64 * i ) << 1, ( 64 * i ) << 1 ) );
-			enemyTest.sprite.anchor.set ( 0.5 );
-			game.physics.isoArcade.enable ( enemyTest.sprite );
-			enemyTest.sprite.body.collideWorldBounds = true;
+			var enemy = new Enemy ( new Vector2 ( ( 64 * i ) << 1, ( 64 * i ) << 1 ) );
+			enemy.sprite.anchor.set ( 0.5 );
+			game.physics.isoArcade.enable ( enemy.sprite );
+			enemy.sprite.body.collideWorldBounds = true;
+
+			enemies.push ( enemy );
 		}
 
 		var mobs;
@@ -81,20 +90,9 @@ BasicGame.Boot.prototype = {
 		mobs.body.collideWorldBounds = true;
 		mobs.body.drag.set(600,600,0);
 
-		player = game.add.isoSprite(0,0,0,'charMove',0,isoGroup2);
-		player.tint = 0x86bfda;
-		player.anchor.set ( 0.5, 0.5 );
+		player = new Player ( new Vector2 ( 0, 0 ) );
 
-		player.animations.add('S', [79,88,89,97,98,99,106,107,108,109,115,116,117,118,119], 6,true);
-		player.animations.add('N', [19,28,29,37,38,39,46,47,48,49,55,56,57,58,59], 6,true);
-		player.animations.add('W', [65,66,74,75,83,84,92,93,94,101,102,103,110,111,112],6,true);
-		player.animations.add('E', [30,31,32,33,34,40,41,42,43,44,50,51,52,53,54],6,true);
-		player.animations.add('NE',5,6,7,8,9,15,16,17,18,25,26,27,35,36,45);
-
-		game.physics.isoArcade.enable(player);
-		player.body.collideWorldBounds = true;
-
-		game.camera.follow(player);
+		game.camera.follow ( player.sprite );
 
 		this.cursors = game.input.keyboard.createCursorKeys();
 
@@ -109,29 +107,29 @@ BasicGame.Boot.prototype = {
 	update: function () {
 		var speed = 400;
 
-		player.body.velocity.x = 0;
-		player.body.velocity.y = 0;
+		player.sprite.body.velocity.x = 0;
+		player.sprite.body.velocity.y = 0;
 
 		if(this.cursors.up.isDown){
-			player.body.velocity.y = -speed;
-			player.animations.play('N');
+			player.sprite.body.velocity.y = -speed;
+			player.sprite.animations.play('N');
 
 		}
 		else if (this.cursors.down.isDown){
-			player.body.velocity.y = speed;
-			player.animations.play('S');
+			player.sprite.body.velocity.y = speed;
+			player.sprite.animations.play('S');
 		}
 		else if(this.cursors.left.isDown){
-			player.body.velocity.x = -speed;
-			player.animations.play('W');
+			player.sprite.body.velocity.x = -speed;
+			player.sprite.animations.play('W');
 		}
 		else if(this.cursors.right.isDown){
-			player.body.velocity.x = speed;
-			player.animations.play('E');
+			player.sprite.body.velocity.x = speed;
+			player.sprite.animations.play('E');
 		}
 		else 
 		{
-			player.animations.stop ( );
+			player.sprite.animations.stop ( );
 		}
 
 		game.physics.isoArcade.collide(isoGroup2);
@@ -139,12 +137,16 @@ BasicGame.Boot.prototype = {
 
 		//Adding feature to destroy enemies here just by touching them at the moment
 		/*
-	    game.physics.isoArcade.overlap(enemy, player,function(e) {
+	    game.physics.isoArcade.overlap(enemy, player.sprite,function(e) {
 		e.destroy();
 		console.log("Enemy Destroyed");
 	    });
 	    */
 
+		for ( var i = 0; i < enemies.length; ++i )
+		{
+			enemies [ i ].update ( );
+		}
 	},
 	render: function () {
 	}
