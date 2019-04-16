@@ -6,6 +6,16 @@ class Vector2
 		this.y = y;
 	}
 
+	add ( rhand )
+	{
+		return new Vector2 ( this.x + rhand.x, this.y + rhand.y );
+	}
+
+	sub ( rhand )
+	{
+		return new Vector2 ( this.x - rhand.x, this.y - rhand.y );
+	}
+
 	//	Dot product between this and another Vector2
 	dot ( rhand )
 	{
