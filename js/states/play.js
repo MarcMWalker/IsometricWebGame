@@ -10,15 +10,6 @@ var wallGroup, wall;
 var isoGroup2, player;
 var enemyGroup, enemy;
 
-var Ndown = false,
-	Sdown = false,
-	Edown = false,
-	Wdown = false,
-	SEdown = false,
-	NEdown = false,
-	SWdown = false,
-	NWdown = false;
-
 BasicGame.Boot.prototype = {
 	preload: function () {
 		game.load.image('cube', 'assets/images/cube3.png');
@@ -74,11 +65,17 @@ BasicGame.Boot.prototype = {
 			}
 		}
 
-		var enemyTest = new Enemy ( new Vector2 ( 256, 256 ) );
+		for ( var i = 0; i < 5; ++i )
+		{
+			var enemyTest = new Enemy ( new Vector2 ( ( 64 * i ) << 1, ( 64 * i ) << 1 ) );
+			enemyTest.sprite.anchor.set ( 0.5 );
+			game.physics.isoArcade.enable ( enemyTest.sprite );
+			enemyTest.sprite.body.collideWorldBounds = true;
+		}
 
 		var mobs;
-		mobs = game.add.isoSprite(128,128,0,'cube3',0,isoGroup2);
-		mobs.anchor.set(0.5);
+		mobs = game.add.isoSprite ( 128, 128, 0, 'cube3', 0, isoGroup2 );
+		mobs.anchor.set ( 0.5 );
 
 		game.physics.isoArcade.enable(mobs);
 		mobs.body.collideWorldBounds = true;
