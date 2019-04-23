@@ -140,17 +140,17 @@ BasicGame.Boot = {
 			case 3:
 				player.sprite.body.velocity.x = -speed * 0.5;
 				player.sprite.body.velocity.y = -speed * 0.5;
-//				player.sprite.animations.play ( 'NW' );
+				player.sprite.animations.play ( 'NW' );
 				break;
 			case 12:
 				player.sprite.body.velocity.x = speed * 0.5;
 				player.sprite.body.velocity.y = speed * 0.5;
-//				player.sprite.animations.play ( 'SE' );
+				player.sprite.animations.play ( 'SE' );
 				break;
 			case 9:
 				player.sprite.body.velocity.x = -speed * 0.5;
 				player.sprite.body.velocity.y = speed * 0.5;
-//				player.sprite.animations.play ( 'SW' );
+				player.sprite.animations.play ( 'SW' );
 				break;				
 		}
 
