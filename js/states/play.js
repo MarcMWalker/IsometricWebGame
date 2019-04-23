@@ -16,7 +16,10 @@ var enemyGroup;
 
 var enemies = [ ];
 
-BasicGame.Boot.prototype = {
+BasicGame.Boot = {
+	intKeyMask : 0,
+	intKeyReset : 2000,
+	fltLastTime : 0,
 	preload: function () {
 		game.load.image('cube', 'assets/images/cube3.png');
 		game.load.image('cube1', 'assets/images/cube2.png');
@@ -103,6 +106,9 @@ BasicGame.Boot.prototype = {
 			Phaser.Keyboard.DOWN,
 			Phaser.Keyboard.SPACEBAR
 		])
+
+		//	Get Keys When Pressed
+		this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, function ( ) { BasicGame.Boot.intKeyMask = 0; } );
 	},
 	update: function () {
 		var speed = 400;
@@ -110,26 +116,52 @@ BasicGame.Boot.prototype = {
 		player.sprite.body.velocity.x = 0;
 		player.sprite.body.velocity.y = 0;
 
-		if(this.cursors.up.isDown){
-			player.sprite.body.velocity.y = -speed;
-			player.sprite.animations.play('N');
-
-		}
-		else if (this.cursors.down.isDown){
-			player.sprite.body.velocity.y = speed;
-			player.sprite.animations.play('S');
-		}
-		else if(this.cursors.left.isDown){
-			player.sprite.body.velocity.x = -speed;
-			player.sprite.animations.play('W');
-		}
-		else if(this.cursors.right.isDown){
-			player.sprite.body.velocity.x = speed;
-			player.sprite.animations.play('E');
-		}
-		else 
+		switch ( this.intKeyMask )
 		{
-			player.sprite.animations.stop ( );
+			//	Idle
+			case 0:
+				player.sprite.animations.stop ( );
+				break;
+
+			//	Straights
+			case 1:
+				player.sprite.body.velocity.x = -speed;
+				player.sprite.animations.play ( 'W' );
+				break;
+			case 2:
+				player.sprite.body.velocity.y = -speed;
+				player.sprite.animations.play ( 'N' );
+				break;
+			case 4:
+				player.sprite.body.velocity.x = speed;
+				player.sprite.animations.play ( 'E' );
+				break;
+			case 8:
+				player.sprite.body.velocity.y = speed;
+				player.sprite.animations.play ( 'S' );
+				break;
+
+			//	Diagonals
+			case 6:
+				player.sprite.body.velocity.x = speed;
+				player.sprite.body.velocity.y = -speed;
+				player.sprite.animations.play ( 'NE' );
+				break;
+			case 3:
+				player.sprite.body.velocity.x = -speed;
+				player.sprite.body.velocity.y = -speed;
+//				player.sprite.animations.play ( 'NW' );
+				break;
+			case 12:
+				player.sprite.body.velocity.x = speed;
+				player.sprite.body.velocity.y = speed;
+//				player.sprite.animations.play ( 'SE' );
+				break;
+			case 9:
+				player.sprite.body.velocity.x = -speed;
+				player.sprite.body.velocity.y = speed;
+//				player.sprite.animations.play ( 'SW' );
+				break;				
 		}
 
 		game.physics.isoArcade.collide(isoGroup2);
@@ -147,8 +179,31 @@ BasicGame.Boot.prototype = {
 		{
 			enemies [ i ].update ( );
 		}
+
+		console.log ( this.intKeyMask );
 	},
-	render: function () {
+	render: function () 
+	{
+	},
+	handle_keys: function ( event )
+	{
+		switch ( event.keyCode )
+		{
+			case 37:
+				BasicGame.Boot.intKeyMask |= 0x1;
+				break;
+			case 38:
+				BasicGame.Boot.intKeyMask |= 0x2;
+				break;
+			case 39:
+				BasicGame.Boot.intKeyMask |= 0x4;
+				break;
+			case 40:
+				BasicGame.Boot.intKeyMask |= 0x8;
+				break;
+		}
+
+		console.log ( "Key Mask : " + BasicGame.Boot.intKeyMask );
 	}
 };
 
