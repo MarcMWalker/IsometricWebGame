@@ -2,7 +2,7 @@ class Player
 {
 	constructor ( position )
 	{
-		this.sprite = game.add.isoSprite ( position.x, position.y, 0, "charMove", 0, isoGroup2 );
+		this.sprite = game.add.isoSprite ( position.x, position.y, 0, "charMove", 0 );
 
 		this.sprite.tint = 0x86bfda;
 		this.sprite.anchor.set ( 0.5, 0.5 );
@@ -19,6 +19,6 @@ class Player
 
 	get position ( )
 	{
-		return new Vector2 ( this.sprite.x, this.sprite.y );
+		return new Vector2 ( this.sprite.isoX, this.sprite.isoY );
 	}
 }
