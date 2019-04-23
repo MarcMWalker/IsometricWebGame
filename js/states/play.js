@@ -133,23 +133,23 @@ BasicGame.Boot = {
 
 			//	Diagonals
 			case 6:
-				player.sprite.body.velocity.x = speed;
-				player.sprite.body.velocity.y = -speed;
+				player.sprite.body.velocity.x = speed * 0.5;
+				player.sprite.body.velocity.y = -speed * 0.5;
 				player.sprite.animations.play ( 'NE' );
 				break;
 			case 3:
-				player.sprite.body.velocity.x = -speed;
-				player.sprite.body.velocity.y = -speed;
+				player.sprite.body.velocity.x = -speed * 0.5;
+				player.sprite.body.velocity.y = -speed * 0.5;
 //				player.sprite.animations.play ( 'NW' );
 				break;
 			case 12:
-				player.sprite.body.velocity.x = speed;
-				player.sprite.body.velocity.y = speed;
+				player.sprite.body.velocity.x = speed * 0.5;
+				player.sprite.body.velocity.y = speed * 0.5;
 //				player.sprite.animations.play ( 'SE' );
 				break;
 			case 9:
-				player.sprite.body.velocity.x = -speed;
-				player.sprite.body.velocity.y = speed;
+				player.sprite.body.velocity.x = -speed * 0.5;
+				player.sprite.body.velocity.y = speed * 0.5;
 //				player.sprite.animations.play ( 'SW' );
 				break;				
 		}
