@@ -97,14 +97,6 @@ BasicGame.Boot = {
 
 		this.cursors = game.input.keyboard.createCursorKeys();
 
-		this.game.input.keyboard.addKeyCapture([
-			Phaser.Keyboard.LEFT,
-			Phaser.Keyboard.RIGHT,
-			Phaser.Keyboard.UP,
-			Phaser.Keyboard.DOWN,
-			Phaser.Keyboard.SPACEBAR
-		])
-
 		//	Get Keys When Pressed
 		this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, function ( ) { BasicGame.Boot.intKeyMask = 0; } );
 	},
@@ -177,8 +169,6 @@ BasicGame.Boot = {
 		{
 			enemies [ i ].update ( );
 		}
-
-		console.log ( this.intKeyMask );
 	},
 	render: function () 
 	{
@@ -200,8 +190,6 @@ BasicGame.Boot = {
 				BasicGame.Boot.intKeyMask |= 0x8;
 				break;
 		}
-
-		console.log ( "Key Mask : " + BasicGame.Boot.intKeyMask );
 	}
 };
 
