@@ -23,8 +23,8 @@ BasicGame.Boot = {
 		game.load.image('cube1', 'assets/images/cube2.png');
 		game.load.image('cube2', 'assets/images/cube4.png');
 		game.load.image('cube3', 'assets/images/cube1.png');
-		//game.load.image('charIdle', 'assets/images/Tuscan Knight_iso/_iso/Idle/Tuscan_Idle_00000.png');
-		game.load.spritesheet('charMove', 'assets/images/_iso/Walk/Tuscan_Spritesheet/Tuscan_Walk_00000.png', 358,306);
+        game.load.spritesheet('knight', 'assets/images/spritesheet-min.png', 360,308);
+        
 
 		game.time.advancedTiming = true;
 
