@@ -18,8 +18,6 @@ var enemies = [ ];
 
 BasicGame.Boot = {
 	intKeyMask : 0,
-	intKeyReset : 2000,
-	fltLastTime : 0,
 	preload: function () {
 		game.load.image('cube', 'assets/images/cube3.png');
 		game.load.image('cube1', 'assets/images/cube2.png');
