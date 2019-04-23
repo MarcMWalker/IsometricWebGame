@@ -18,6 +18,11 @@ class Vector2
 		return new Vector2 ( this.x - rhand.x, this.y - rhand.y );
 	}
 
+	mul ( scalar )
+	{
+		return new Vector2 ( this.x * scalar, this.y * scalar );
+	}
+
 	//	Dot product between this and another Vector2
 	dot ( rhand )
 	{
@@ -28,5 +33,10 @@ class Vector2
 	magnitude ( )
 	{
 		return Math.sqrt ( this.x * this.x + this.y * this.y );
+	}
+
+	normalize ( )
+	{
+		return new Vector2 ( this.x / this.magnitude ( ), this.y / this.magnitude ( ) );
 	}
 }
