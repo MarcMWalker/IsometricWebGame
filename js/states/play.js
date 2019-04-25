@@ -112,7 +112,10 @@ BasicGame.Boot =
 			emitter.maxRotation = 0;
 			emitter.start(false, 16600, 0, 0);
             
+            
+            //Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
             back_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+            back_emitter.width = game.world.width;
             back_emitter.makeParticles('leaf');
             back_emitter.maxParticleScale = 0.06;
             back_emitter.minParticleScale = 0.02;
@@ -123,6 +126,7 @@ BasicGame.Boot =
             back_emitter.maxRotation = 40;
 
             mid_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+            mid_emitter.width = game.world.width;
             mid_emitter.makeParticles('leaf2');
             mid_emitter.maxParticleScale = 0.06;
             mid_emitter.minParticleScale = 0.008;
@@ -133,6 +137,7 @@ BasicGame.Boot =
             mid_emitter.maxRotation = 40;
         
             secondMid_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+            secondMid_emitter.width = game.world.width;
             secondMid_emitter.makeParticles('leaf2');
             secondMid_emitter.maxParticleScale = 0.06;
             secondMid_emitter.minParticleScale = 0.008;
@@ -143,6 +148,7 @@ BasicGame.Boot =
             secondMid_emitter.maxRotation = 40;
 
             front_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+            front_emitter.width = game.world.width;
             front_emitter.makeParticles('leaf3');
             front_emitter.maxParticleScale = 0.09;
             front_emitter.minParticleScale = 0.06;
