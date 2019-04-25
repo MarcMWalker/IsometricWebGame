@@ -16,178 +16,182 @@ var enemyGroup;
 
 var enemies = [ ];
 
-BasicGame.Boot = {
-	intKeyMask : 0,
-	preload: function ( )
+BasicGame.Boot = 
 	{
-		game.load.image('cube', 'assets/images/cube3.png');
-		game.load.image('cube1', 'assets/images/cube2.png');
-		game.load.image('cube2', 'assets/images/cube4.png');
-		game.load.image('cube3', 'assets/images/cube1.png');
-		game.load.image('raindrop', 'assets/images/rain.png');
-		game.load.spritesheet('knight', 'assets/images/spritesheet-min.png', 360,308);
-
-		game.time.advancedTiming = true;
-
-		// Add and enable the plug-in.
-		game.plugins.add ( new Phaser.Plugin.Isometric ( game ) );
-
-		game.world.setBounds ( 0, 0, 5150, 5150 );
-
-		game.physics.startSystem ( Phaser.Plugin.Isometric.ISOARCADE );
-
-		game.physics.isoArcade.setBoundsToWorld ( );
-
-		// This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
-		// this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
-		game.iso.anchor.setTo ( 0.5, 0.5 );
-	},
-	create: function ( )
-	{
-		// Create a group for our tiles, so we can use Group.sort
-		mapGroup = game.add.group ( );
-		isoGroup2 = game.add.group ( );
-		enemyGroup = game.add.group ( );
-
-		game.physics.isoArcade.gravity.setTo ( 0,0,-500 );
-
-		// Let's make a load of cubes on a grid, but do it back-to-front so they get added out of order.
-		var map;
-		for ( var xx = 0; xx < 27; ++xx ) 
+		intKeyMask : 0,
+		intPrevMask : 0,
+		preload: function ( )
 		{
-			for ( var yy = 0; yy < 27; ++yy ) 
+			game.load.image('cube', 'assets/images/cube3.png');
+			game.load.image('cube1', 'assets/images/cube2.png');
+			game.load.image('cube2', 'assets/images/cube4.png');
+			game.load.image('cube3', 'assets/images/cube1.png');
+			game.load.image('raindrop', 'assets/images/rain.png');
+			game.load.spritesheet('knight', 'assets/images/spritesheet-min.png', 360,308);
+
+			game.time.advancedTiming = true;
+
+			// Add and enable the plug-in.
+			game.plugins.add ( new Phaser.Plugin.Isometric ( game ) );
+
+			game.world.setBounds ( 0, 0, 5150, 5150 );
+
+			game.physics.startSystem ( Phaser.Plugin.Isometric.ISOARCADE );
+
+			game.physics.isoArcade.setBoundsToWorld ( );
+
+			// This is used to set a game canvas-based offset for the 0, 0, 0 isometric coordinate - by default
+			// this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
+			game.iso.anchor.setTo ( 0.5, 0.5 );
+		},
+		create: function ( )
+		{
+			// Create a group for our tiles, so we can use Group.sort
+			mapGroup = game.add.group ( );
+			isoGroup2 = game.add.group ( );
+			enemyGroup = game.add.group ( );
+
+			game.physics.isoArcade.gravity.setTo ( 0,0,-500 );
+
+			// Let's make a load of cubes on a grid, but do it back-to-front so they get added out of order.
+			var map;
+			for ( var xx = 0; xx < 27; ++xx ) 
 			{
-				// Create a cube using the new game.add.isoSprite factory method at the specified position.
-				// The last parameter is the group you want to add it to (just like game.add.sprite)
-				map = game.add.isoSprite ( xx * 103, yy * 103, 0, 'cube', 0, mapGroup );
-				map.anchor.set ( 0.5, 0.5 );
+				for ( var yy = 0; yy < 27; ++yy ) 
+				{
+					// Create a cube using the new game.add.isoSprite factory method at the specified position.
+					// The last parameter is the group you want to add it to (just like game.add.sprite)
+					map = game.add.isoSprite ( xx * 103, yy * 103, 0, 'cube', 0, mapGroup );
+					map.anchor.set ( 0.5, 0.5 );
+				}
 			}
-		}
 
-		//	Generate First Wave Of Enemies
-		for ( var i = 0; i < 5; ++i )
+			//	Generate First Wave Of Enemies
+			for ( var i = 0; i < 1; ++i )
+			{
+				var enemy = new Enemy ( new Vector2 ( ( 64 * i + 64 ) << 1, ( 64 * i + 64 ) << 1 ) );
+				enemy.sprite.anchor.set ( 0.5 );
+				game.physics.isoArcade.enable ( enemy.sprite );
+				enemy.sprite.body.collideWorldBounds = true;
+
+				enemies.push ( enemy );
+			}
+
+			player = new Player ( new Vector2 ( 0, 0 ) );
+
+			game.camera.follow ( player.sprite );
+
+			this.cursors = game.input.keyboard.createCursorKeys ( );
+
+			//	Get Keys When Pressed
+			this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, this.reset_keys );
+
+			var emitter = game.add.emitter(game.world.centerX, 1920, 1080);
+
+			emitter.width = game.world.width;
+			//emitter.angle = 20; // uncomment to set an angle for the rain.
+
+			emitter.makeParticles('raindrop');
+			emitter.minParticleScale = 0.1;
+			emitter.maxParticleScale = 0.6;
+			emitter.setYSpeed(600, 600);
+			emitter.setXSpeed(-5, 5);
+
+			emitter.minRotation = 0;
+			emitter.maxRotation = 0;
+			emitter.start(false, 16600, 0, 0);
+		},
+		update: function ( )
 		{
-			var enemy = new Enemy ( new Vector2 ( ( 64 * i ) << 1, ( 64 * i ) << 1 ) );
-			enemy.sprite.anchor.set ( 0.5 );
-			game.physics.isoArcade.enable ( enemy.sprite );
-			enemy.sprite.body.collideWorldBounds = true;
+			var speed = 400;
 
-			enemies.push ( enemy );
-		}
+			player.sprite.body.velocity.x = 0;
+			player.sprite.body.velocity.y = 0;
 
-		player = new Player ( new Vector2 ( 0, 0 ) );
+			switch ( this.intKeyMask )
+			{
+					//	Idle
+				case 0:
+					player.sprite.animations.stop ( );
+					break;
 
-		game.camera.follow ( player.sprite );
+					//	Straights
+				case 1:
+					player.sprite.body.velocity.x = -speed;
+					player.sprite.animations.play ( 'W' );
+					break;
+				case 2:
+					player.sprite.body.velocity.y = -speed;
+					player.sprite.animations.play ( 'N' );
+					break;
+				case 4:
+					player.sprite.body.velocity.x = speed;
+					player.sprite.animations.play ( 'E' );
+					break;
+				case 8:
+					player.sprite.body.velocity.y = speed;
+					player.sprite.animations.play ( 'S' );
+					break;
 
-		this.cursors = game.input.keyboard.createCursorKeys ( );
+					//	Diagonals
+				case 6:
+					player.sprite.body.velocity.x = speed;
+					player.sprite.body.velocity.y = -speed;
+					player.sprite.animations.play ( 'NE' );
+					break;
+				case 3:
+					player.sprite.body.velocity.x = -speed;
+					player.sprite.body.velocity.y = -speed;
+					player.sprite.animations.play ( 'NW' );
+					break;
+				case 12:
+					player.sprite.body.velocity.x = speed;
+					player.sprite.body.velocity.y = speed;
+					player.sprite.animations.play ( 'SE' );
+					break;
+				case 9:
+					player.sprite.body.velocity.x = -speed;
+					player.sprite.body.velocity.y = speed;
+					player.sprite.animations.play ( 'SW' );
+					break;				
+			}
 
-		//	Get Keys When Pressed
-		this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, this.reset_keys );
+			this.intPrevMask = this.intKeyMask;
 
-		var emitter = game.add.emitter(game.world.centerX, 1920, 1080);
+			game.physics.isoArcade.collide ( isoGroup2 );
+			game.iso.topologicalSort ( isoGroup2 );
 
-		emitter.width = game.world.width;
-		//emitter.angle = 20; // uncomment to set an angle for the rain.
-
-		emitter.makeParticles('raindrop');
-		emitter.minParticleScale = 0.1;
-		emitter.maxParticleScale = 0.6;
-		emitter.setYSpeed(600, 600);
-		emitter.setXSpeed(-5, 5);
-
-		emitter.minRotation = 0;
-		emitter.maxRotation = 0;
-		emitter.start(false, 16600, 0, 0);
-	},
-	update: function ( )
-	{
-		var speed = 400;
-
-		player.sprite.body.velocity.x = 0;
-		player.sprite.body.velocity.y = 0;
-
-		switch ( this.intKeyMask )
+			for ( var i = 0; i < enemies.length; ++i )
+			{
+				enemies [ i ].update ( );
+			}
+		},
+		render: function ( ) 
 		{
-				//	Idle
-			case 0:
-				player.sprite.animations.stop ( );
-				break;
-
-				//	Straights
-			case 1:
-				player.sprite.body.velocity.x = -speed;
-				player.sprite.animations.play ( 'W' );
-				break;
-			case 2:
-				player.sprite.body.velocity.y = -speed;
-				player.sprite.animations.play ( 'N' );
-				break;
-			case 4:
-				player.sprite.body.velocity.x = speed;
-				player.sprite.animations.play ( 'E' );
-				break;
-			case 8:
-				player.sprite.body.velocity.y = speed;
-				player.sprite.animations.play ( 'S' );
-				break;
-
-				//	Diagonals
-			case 6:
-				player.sprite.body.velocity.x = speed * 0.5;
-				player.sprite.body.velocity.y = -speed * 0.5;
-				player.sprite.animations.play ( 'NE' );
-				break;
-			case 3:
-				player.sprite.body.velocity.x = -speed * 0.5;
-				player.sprite.body.velocity.y = -speed * 0.5;
-				player.sprite.animations.play ( 'NW' );
-				break;
-			case 12:
-				player.sprite.body.velocity.x = speed * 0.5;
-				player.sprite.body.velocity.y = speed * 0.5;
-				player.sprite.animations.play ( 'SE' );
-				break;
-			case 9:
-				player.sprite.body.velocity.x = -speed * 0.5;
-				player.sprite.body.velocity.y = speed * 0.5;
-				player.sprite.animations.play ( 'SW' );
-				break;				
-		}
-
-		game.physics.isoArcade.collide ( isoGroup2 );
-		game.iso.topologicalSort ( isoGroup2 );
-
-		for ( var i = 0; i < enemies.length; ++i )
+		},
+		handle_keys: function ( event )
 		{
-			enemies [ i ].update ( );
-		}
-	},
-	render: function ( ) 
-	{
-	},
-	handle_keys: function ( event )
-	{
-		switch ( event.keyCode )
+			switch ( event.keyCode )
+			{
+				case 37:
+					BasicGame.Boot.intKeyMask |= 0x1;
+					break;
+				case 38:
+					BasicGame.Boot.intKeyMask |= 0x2;
+					break;
+				case 39:
+					BasicGame.Boot.intKeyMask |= 0x4;
+					break;
+				case 40:
+					BasicGame.Boot.intKeyMask |= 0x8;
+					break;
+			}
+		},
+		reset_keys : function ( )
 		{
-			case 37:
-				BasicGame.Boot.intKeyMask |= 0x1;
-				break;
-			case 38:
-				BasicGame.Boot.intKeyMask |= 0x2;
-				break;
-			case 39:
-				BasicGame.Boot.intKeyMask |= 0x4;
-				break;
-			case 40:
-				BasicGame.Boot.intKeyMask |= 0x8;
-				break;
+			BasicGame.Boot.intKeyMask = 0;
 		}
-	},
-	reset_keys : function ( )
-	{
-		BasicGame.Boot.intKeyMask = 0;
-	}
-};
+	};
 
 game.state.add('Boot', BasicGame.Boot);
 game.state.start('Boot');
