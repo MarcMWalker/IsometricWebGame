@@ -83,14 +83,6 @@ BasicGame.Boot = {
 			enemies.push ( enemy );
 		}
 
-		var mobs;
-		mobs = game.add.isoSprite ( 128, 128, 0, 'cube3', 0, isoGroup2 );
-		mobs.anchor.set ( 0.5 );
-
-		game.physics.isoArcade.enable(mobs);
-		mobs.body.collideWorldBounds = true;
-		mobs.body.drag.set(600,600,0);
-
 		player = new Player ( new Vector2 ( 0, 0 ) );
 
 		game.camera.follow ( player.sprite );
@@ -98,7 +90,7 @@ BasicGame.Boot = {
 		this.cursors = game.input.keyboard.createCursorKeys();
 
 		//	Get Keys When Pressed
-		this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, function ( ) { BasicGame.Boot.intKeyMask = 0; } );
+		this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, this.reset_keys );
 	},
 	update: function () {
 		var speed = 400;
@@ -165,10 +157,10 @@ BasicGame.Boot = {
 	    });
 	    */
 
-		for ( var i = 0; i < enemies.length; ++i )
+		/*for ( var i = 0; i < enemies.length; ++i )
 		{
 			enemies [ i ].update ( );
-		}
+		}*/
 	},
 	render: function () 
 	{
@@ -190,6 +182,10 @@ BasicGame.Boot = {
 				BasicGame.Boot.intKeyMask |= 0x8;
 				break;
 		}
+	},
+	reset_keys : function ( )
+	{
+		BasicGame.Boot.intKeyMask = 0;
 	}
 };
 
