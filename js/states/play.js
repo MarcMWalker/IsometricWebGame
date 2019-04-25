@@ -23,8 +23,9 @@ BasicGame.Boot = {
 		game.load.image('cube1', 'assets/images/cube2.png');
 		game.load.image('cube2', 'assets/images/cube4.png');
 		game.load.image('cube3', 'assets/images/cube1.png');
+        game.load.image('raindrop', 'assets/images/rain.png');
         game.load.spritesheet('knight', 'assets/images/spritesheet-min.png', 360,308);
-        
+        game.load.image('raindrop', 'assets/images/rain.png');
 
 		game.time.advancedTiming = true;
 
@@ -57,6 +58,7 @@ BasicGame.Boot = {
 				// The last parameter is the group you want to add it to (just like game.add.sprite)
 				map = game.add.isoSprite(xx * 103, yy * 103, 0, 'cube', 0, mapGroup);
 				map.anchor.set(0.5, 0.5);
+                
 
 				//Adding wall around arena
 				/*
@@ -83,6 +85,16 @@ BasicGame.Boot = {
 			enemies.push ( enemy );
 		}
 
+        //Added proper enemies down below
+		/*var mobs;
+		mobs = game.add.isoSprite ( 128, 128, 0, 'cube3', 0, isoGroup2 );
+		mobs.anchor.set ( 0.5 );
+
+		game.physics.isoArcade.enable(mobs);
+		mobs.body.collideWorldBounds = true;
+		mobs.body.drag.set(600,600,0);
+        */
+        
 		player = new Player ( new Vector2 ( 0, 0 ) );
 
 		game.camera.follow ( player.sprite );
@@ -90,7 +102,22 @@ BasicGame.Boot = {
 		this.cursors = game.input.keyboard.createCursorKeys();
 
 		//	Get Keys When Pressed
-		this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, this.reset_keys );
+		this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, function ( ) { BasicGame.Boot.intKeyMask = 0; } );
+        
+        var emitter = game.add.emitter(game.world.centerX, 1920, 1080);
+
+                emitter.width = game.world.width;
+                //emitter.angle = 20; // uncomment to set an angle for the rain.
+
+                emitter.makeParticles('raindrop');
+                emitter.minParticleScale = 0.1;
+                emitter.maxParticleScale = 0.6;
+                emitter.setYSpeed(600, 600);
+                emitter.setXSpeed(-5, 5);
+
+                emitter.minRotation = 0;
+                emitter.maxRotation = 0;
+                emitter.start(false, 16600, 0, 0);
 	},
 	update: function () {
 		var speed = 400;
@@ -157,10 +184,10 @@ BasicGame.Boot = {
 	    });
 	    */
 
-		/*for ( var i = 0; i < enemies.length; ++i )
+		for ( var i = 0; i < enemies.length; ++i )
 		{
 			enemies [ i ].update ( );
-		}*/
+		}
 	},
 	render: function () 
 	{
@@ -182,10 +209,6 @@ BasicGame.Boot = {
 				BasicGame.Boot.intKeyMask |= 0x8;
 				break;
 		}
-	},
-	reset_keys : function ( )
-	{
-		BasicGame.Boot.intKeyMask = 0;
 	}
 };
 
