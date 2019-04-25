@@ -16,6 +16,14 @@ var enemyGroup;
 
 var enemies = [ ];
 
+var max = 0;
+var front_emitter;
+var mid_emitter;
+var secondMid_emitter;
+var back_emitter;
+var update_interval = 4 * 60;
+var l = 0;
+
 BasicGame.Boot = 
 	{
 		intKeyMask : 0,
@@ -28,6 +36,9 @@ BasicGame.Boot =
 			game.load.image('cube3', 'assets/images/cube1.png');
 			game.load.image('raindrop', 'assets/images/rain.png');
 			game.load.spritesheet('knight', 'assets/images/spritesheet-min.png', 360,308);
+            game.load.image('leaf', 'assets/images/leaf.png');
+            game.load.image('leaf2', 'assets/images/leaf2.png');
+            game.load.image('leaf3', 'assets/images/leaf3.png');
 
 			game.time.advancedTiming = true;
 
@@ -100,6 +111,53 @@ BasicGame.Boot =
 			emitter.minRotation = 0;
 			emitter.maxRotation = 0;
 			emitter.start(false, 16600, 0, 0);
+            
+            back_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+            back_emitter.makeParticles('leaf');
+            back_emitter.maxParticleScale = 0.06;
+            back_emitter.minParticleScale = 0.02;
+            back_emitter.setYSpeed(20, 100);
+            back_emitter.gravity = 1;
+            back_emitter.width = game.world.width * 2.5;
+            back_emitter.minRotation = 0;
+            back_emitter.maxRotation = 40;
+
+            mid_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+            mid_emitter.makeParticles('leaf2');
+            mid_emitter.maxParticleScale = 0.06;
+            mid_emitter.minParticleScale = 0.008;
+            mid_emitter.setYSpeed(50, 150);
+            mid_emitter.gravity = 1;
+            mid_emitter.width = game.world.width * 2.5;
+            mid_emitter.minRotation = 0;
+            mid_emitter.maxRotation = 40;
+        
+            secondMid_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+            secondMid_emitter.makeParticles('leaf2');
+            secondMid_emitter.maxParticleScale = 0.06;
+            secondMid_emitter.minParticleScale = 0.008;
+            secondMid_emitter.setYSpeed(50, 150);
+            secondMid_emitter.gravity = 1;
+            secondMid_emitter.width = game.world.width * 2.5;
+            secondMid_emitter.minRotation = 0;
+            secondMid_emitter.maxRotation = 40;
+
+            front_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+            front_emitter.makeParticles('leaf3');
+            front_emitter.maxParticleScale = 0.09;
+            front_emitter.minParticleScale = 0.06;
+            front_emitter.setYSpeed(50, 150);
+            front_emitter.gravity = 2;
+            front_emitter.width = game.world.width * 2.5;
+            front_emitter.minRotation = 0;
+            front_emitter.maxRotation = 40;
+        
+            this.changeWindDirection();
+
+            back_emitter.start(false, 22000, 10);
+            mid_emitter.start(false, 10000, 30);
+            secondMid_emitter.start(false, 10000, 30);
+            front_emitter.start(false, 20000, 10);
 		},
 		update: function ( )
 		{
@@ -165,6 +223,15 @@ BasicGame.Boot =
 			{
 				enemies [ i ].update ( );
 			}
+            
+            l++;
+
+            if (l === update_interval)
+            {
+        this.changeWindDirection();
+        update_interval = Math.floor(Math.random() * 20) * 60; // 0 - 20sec @ 60fps
+        l = 0;
+            }
 		},
 		render: function ( ) 
 		{
@@ -190,7 +257,35 @@ BasicGame.Boot =
 		reset_keys : function ( )
 		{
 			BasicGame.Boot.intKeyMask = 0;
-		}
+		},
+    changeWindDirection : function () {
+
+    var multi = Math.floor((max + 200) / 4),
+        frag = (Math.floor(Math.random() * 100) - multi);
+    max = max + frag;
+
+    if (max > 200) max = 150;
+    if (max < -200) max = -150;
+
+    this.setXSpeed(back_emitter, max);
+    this.setXSpeed(mid_emitter, max);
+    this.setXSpeed(secondMid_emitter, max);
+    this.setXSpeed(front_emitter, max);
+
+},
+    
+    setXSpeed : function (emitter, max) {
+
+    emitter.setXSpeed(max - 2, max);
+    emitter.forEachAlive(this.setParticleXSpeed, this, max);
+
+},
+    
+    setParticleXSpeed : function (particle, max) {
+
+    particle.body.velocity.x = max - Math.floor(Math.random() * 300);
+
+}
 	};
 
 game.state.add('Boot', BasicGame.Boot);
