@@ -7,6 +7,7 @@ class Player
 		this.sprite.tint = 0x86bfda;
 		this.sprite.anchor.set ( 0.5, 0.5 );
 
+		//	TODO: Adjust the frame rate for these animations
 		this.sprite.animations.add('S', [79,88,89,97,98,99,106,107,108,109,115,116,117,118,119], 6,true);
 		this.sprite.animations.add('N', [19,28,29,37,38,39,46,47,48,49,55,56,57,58,59], 6,true);
 		this.sprite.animations.add('W', [65,66,74,75,83,84,92,93,94,101,102,103,110,111,112],6,true);
