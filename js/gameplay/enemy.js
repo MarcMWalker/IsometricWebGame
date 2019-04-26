@@ -41,7 +41,6 @@ class Enemy
 	 * */
 	animate ( )
 	{
-		console.log ( "Animation Mask : " + this.intAnimationMask );
 		switch ( this.intAnimationMask )
 		{
 				//	Idle
@@ -77,6 +76,8 @@ class Enemy
 				this.sprite.animations.play ( 'SW' );
 				break;				
 		}
+
+		this.intAnimationMask = 0;
 	}
 
 	/*
@@ -87,11 +88,6 @@ class Enemy
 		//	Get Player position
 		var distance = player.position.sub ( this.position );
 
-		this.intAnimationMask |= ( ( distance.x > 0 ) ? 0x4 : 0x1 );
-		this.intAnimationMask |= ( ( distance.y > 0 ) ? 0x8 : 0x2 );
-
-		this.animate ( );
-
 		//	Get Distance Squared
 		var distSqr = distance.dot ( distance );
 
@@ -99,8 +95,11 @@ class Enemy
 		{
 			this.sprite.isoX = this.lerp ( this.position.x, player.position.x, 0.001 );
 			this.sprite.isoY = this.lerp ( this.position.y, player.position.y, 0.001 );
+
+			this.intAnimationMask |= ( ( distance.x > 0 ) ? 0x4 : 0x1 );
+			this.intAnimationMask |= ( ( distance.y > 0 ) ? 0x8 : 0x2 );
 		}
 
-		this.intAnimationMask = 0;
+		this.animate ( );
 	}
 }
