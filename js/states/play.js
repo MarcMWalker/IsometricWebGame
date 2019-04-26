@@ -256,8 +256,8 @@ BasicGame.Boot =
 		handle_keys: function ( event )
 		{
 			//	Reset After Attack
-			if ( this.intKeyMask === -1 )
-				this.intKeyMask = 0;
+			if ( BasicGame.Boot.intKeyMask === -1 )
+				BasicGame.Boot.intKeyMask = 0;
 
 			switch ( event.keyCode )
 			{
