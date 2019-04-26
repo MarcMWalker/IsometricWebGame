@@ -8,15 +8,15 @@ class Player
 		this.sprite.tint = 0x86bfda;
 		this.sprite.anchor.set ( 0.5, 0.5 );
 
-		/*this.sprite.animations.add('S', [79,88,89,97,98,99,106,107,108,109,115,116,117,118,119], 15,true);
-		this.sprite.animations.add('N', [19,28,29,37,38,39,46,47,48,49,55,56,57,58,59], 15,true);
-		this.sprite.animations.add('W', [65,66,74,75,83,84,92,93,94,101,102,103,110,111,112],15,true);
-		this.sprite.animations.add('E', [30,31,32,33,34,40,41,42,43,44,50,51,52,53,54], 15,true);
-		this.sprite.animations.add('NE', [5,6,7,8,9,15,16,17,18,25,26,27,35,36,45], 15, true);
-        	this.sprite.animations.add('SE', [0,1,2,3,4,10,11,12,13,14,20,21,22,23,24], 15, true);
-        	this.sprite.animations.add('SW', [67,68,69,76,77,78,85,86,87,95,96,104,105,113,114], 15, true);
-        	this.sprite.animations.add('NW', [60,61,62,63,64,70,71,72,73,80,81,82,90,91,100], 15, true);*/
-        
+		this.sprite.animations.add('AS', [79,88,89,97,98,99,106,107,108,109,115,116,117,118,119], 15 );
+		this.sprite.animations.add('AN', [19,28,29,37,38,39,46,47,48,49,55,56,57,58,59], 15 );
+		this.sprite.animations.add('AW', [65,66,74,75,83,84,92,93,94,101,102,103,110,111,112], 15 );
+		this.sprite.animations.add('AE', [30,31,32,33,34,40,41,42,43,44,50,51,52,53,54], 15 );
+		this.sprite.animations.add('ANE', [5,6,7,8,9,15,16,17,18,25,26,27,35,36,45], 15 );
+		this.sprite.animations.add('ASE', [0,1,2,3,4,10,11,12,13,14,20,21,22,23,24], 15 );
+		this.sprite.animations.add('ASW', [67,68,69,76,77,78,85,86,87,95,96,104,105,113,114], 15 );
+		this.sprite.animations.add('ANW', [60,61,62,63,64,70,71,72,73,80,81,82,90,91,100], 15 );
+
 		//Movement animations
 		this.sprite.animations.add('S', [21,43,65,87,109,131,153,175,197,219,241,43], 15,true);
 		this.sprite.animations.add('N', [484,485,486,487,488,489,490,491,492,493,494,495,496,497], 15,true);
@@ -44,5 +44,44 @@ class Player
 	get position ( )
 	{
 		return new Vector2 ( this.sprite.isoX, this.sprite.isoY );
+	}
+
+	animate ( )
+	{
+		//	TODO: Move Player Animation Code here
+	}
+
+	handle_attack ( prevMask )
+	{
+		switch ( prevMask )
+		{
+				//	Straights
+			case 1:
+				this.sprite.animations.play ( 'AW' );
+				break;
+			case 2:
+				this.sprite.animations.play ( 'AN' );
+				break;
+			case 4:
+				this.sprite.animations.play ( 'AE' );
+				break;
+			case 8:
+				this.sprite.animations.play ( 'AS' );
+				break;
+
+				//	Diagonals
+			case 6:
+				this.sprite.animations.play ( 'ANE' );
+				break;
+			case 3:
+				this.sprite.animations.play ( 'ANW' );
+				break;
+			case 12:
+				this.sprite.animations.play ( 'ASE' );
+				break;
+			case 9:
+				this.sprite.animations.play ( 'ASW' );
+				break;				
+		}
 	}
 }
