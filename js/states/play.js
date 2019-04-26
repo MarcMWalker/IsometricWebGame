@@ -21,7 +21,7 @@ var front_emitter;
 var mid_emitter;
 var secondMid_emitter;
 var back_emitter;
-var update_interval = 4 * 60;
+var update_interval = 240;
 var l = 0;
 
 BasicGame.Boot = 
@@ -45,8 +45,10 @@ BasicGame.Boot =
 			// Add and enable the plug-in.
 			game.plugins.add ( new Phaser.Plugin.Isometric ( game ) );
 
+			//	Setup world boundary
 			game.world.setBounds ( 0, 0, 5150, 5150 );
 
+			//	Start the plugin physics system
 			game.physics.startSystem ( Phaser.Plugin.Isometric.ISOARCADE );
 
 			game.physics.isoArcade.setBoundsToWorld ( );
@@ -172,6 +174,8 @@ BasicGame.Boot =
 			player.sprite.body.velocity.x = 0;
 			player.sprite.body.velocity.y = 0;
 
+			console.log ( this.intKeyMask );
+
 			switch ( this.intKeyMask )
 			{
 					//	Idle
@@ -220,7 +224,14 @@ BasicGame.Boot =
 					break;				
 			}
 
-			this.intPrevMask = this.intKeyMask;
+			if ( this.intKeyMask > 0 )
+				this.intPrevMask = this.intKeyMask;
+
+			if ( game.input.mousePointer.leftButton.isDown )
+			{
+				player.handle_attack ( this.intPrevMask );
+				this.intKeyMask = -1;
+			}
 
 			game.physics.isoArcade.collide ( isoGroup2 );
 			game.iso.topologicalSort ( isoGroup2 );
@@ -244,6 +255,10 @@ BasicGame.Boot =
 		},
 		handle_keys: function ( event )
 		{
+			//	Reset After Attack
+			if ( this.intKeyMask === -1 )
+				this.intKeyMask = 0;
+
 			switch ( event.keyCode )
 			{
 				case 37:
@@ -260,9 +275,23 @@ BasicGame.Boot =
 					break;
 			}
 		},
-		reset_keys : function ( )
+		reset_keys : function ( event )
 		{
-			BasicGame.Boot.intKeyMask = 0;
+			switch ( event.keyCode )
+			{
+				case 37:
+					BasicGame.Boot.intKeyMask ^= 0x1;
+					break;
+				case 38:
+					BasicGame.Boot.intKeyMask ^= 0x2;
+					break;
+				case 39:
+					BasicGame.Boot.intKeyMask ^= 0x4;
+					break;
+				case 40:
+					BasicGame.Boot.intKeyMask ^= 0x8;
+					break;
+			}
 		},
 		changeWindDirection : function () {
 
