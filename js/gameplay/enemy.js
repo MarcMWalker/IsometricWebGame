@@ -21,6 +21,8 @@ class Enemy
 		this.sprite.animations.add('NW', [498,499,500,501,502,503,504,506,507,508,509,510,511,512,513], 15, true);
 
 		this.intAnimationMask = 0;
+		this.vecForward = new Vector2 ( 0.0, 0.0 );
+		this.intHealth = 50;
 	}
 
 	/*
@@ -52,18 +54,26 @@ class Enemy
 			case 1:
 				this.sprite.animations.play ( 'W' );
 				this.sprite.body.velocity.x = -250;
+
+				this.vecForward.x = -1;
 				break;
 			case 2:
 				this.sprite.animations.play ( 'N' );
 				this.sprite.body.velocity.y = -250;
+
+				this.vecForward.y = -1;
 				break;
 			case 4:
 				this.sprite.animations.play ( 'E' );
 				this.sprite.body.velocity.x = 250;
+
+				this.vecForward.x = 1;
 				break;
 			case 8:
 				this.sprite.animations.play ( 'S' );
 				this.sprite.body.velocity.y = 250;
+
+				this.vecForward.y = 1;
 				break;
 
 				//	Diagonals
@@ -71,21 +81,33 @@ class Enemy
 				this.sprite.animations.play ( 'NE' );
 				this.sprite.body.velocity.x = 250;
 				this.sprite.body.velocity.y = -250;
+
+				this.vecForward.x = 1;
+				this.vecForward.y = -1;
 				break;
 			case 3:
 				this.sprite.animations.play ( 'NW' );
 				this.sprite.body.velocity.x = -250;
 				this.sprite.body.velocity.y = -250;
+
+				this.vecForward.x = -1;
+				this.vecForward.y = -1;
 				break;
 			case 12:
 				this.sprite.animations.play ( 'SE' );
 				this.sprite.body.velocity.x = 250;
 				this.sprite.body.velocity.y = 250;
+				
+				this.vecForward.x = 1;
+				this.vecForward.y = 1;
 				break;
 			case 9:
 				this.sprite.animations.play ( 'SW' );
 				this.sprite.body.velocity.x = -250;
 				this.sprite.body.velocity.y = 250;
+				
+				this.vecForward.x = -1;
+				this.vecForward.y = 1;
 				break;				
 		}
 
@@ -97,6 +119,11 @@ class Enemy
 	 * */
 	update ( )
 	{
+		if ( this.intHealth == 0 )
+		{
+			//	Do Something
+		}
+
 		this.sprite.body.velocity.x = 0;
 		this.sprite.body.velocity.y = 0;
 
@@ -106,15 +133,15 @@ class Enemy
 		//	Get Distance Squared
 		var distSqr = distance.dot ( distance );
 
-		if ( distSqr < 100000 && distSqr > 5000 )
+		if ( distSqr < 100000 && distSqr > 10000 )
 		{
+			this.vecForward.zero ( );
+
 			if ( distance.x < -6 || distance.x > 6 )
 				this.intAnimationMask |= ( ( distance.x > 0 ) ? 0x4 : 0x1 );
 
 			if ( distance.y < -6 || distance.y > 6 )
 				this.intAnimationMask |= ( ( distance.y > 0 ) ? 0x8 : 0x2 );
-
-			console.log ( "MASK : " + this.intAnimationMask + " Dist : X - " + distance.x + " Y - " + distance.y );
 		}
 
 		this.animate ( );
