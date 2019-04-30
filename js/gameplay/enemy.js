@@ -7,7 +7,7 @@ class Enemy
 	 * */
 	constructor ( position )
 	{
-		this.sprite = game.add.isoSprite ( position.x, position.y, 0, "knight", 0, isoGroup2 );
+		this.sprite = game.add.isoSprite ( position.x, position.y, 0, "knight", 0, enemyGroup );
 
 		this.sprite.tint = 0xFF0000;
 
@@ -51,29 +51,41 @@ class Enemy
 				//	Straights
 			case 1:
 				this.sprite.animations.play ( 'W' );
+				this.sprite.body.velocity.x = -250;
 				break;
 			case 2:
 				this.sprite.animations.play ( 'N' );
+				this.sprite.body.velocity.y = -250;
 				break;
 			case 4:
 				this.sprite.animations.play ( 'E' );
+				this.sprite.body.velocity.x = 250;
 				break;
 			case 8:
 				this.sprite.animations.play ( 'S' );
+				this.sprite.body.velocity.y = 250;
 				break;
 
 				//	Diagonals
 			case 6:
 				this.sprite.animations.play ( 'NE' );
+				this.sprite.body.velocity.x = 250;
+				this.sprite.body.velocity.y = -250;
 				break;
 			case 3:
 				this.sprite.animations.play ( 'NW' );
+				this.sprite.body.velocity.x = -250;
+				this.sprite.body.velocity.y = -250;
 				break;
 			case 12:
 				this.sprite.animations.play ( 'SE' );
+				this.sprite.body.velocity.x = 250;
+				this.sprite.body.velocity.y = 250;
 				break;
 			case 9:
 				this.sprite.animations.play ( 'SW' );
+				this.sprite.body.velocity.x = -250;
+				this.sprite.body.velocity.y = 250;
 				break;				
 		}
 
@@ -85,19 +97,24 @@ class Enemy
 	 * */
 	update ( )
 	{
+		this.sprite.body.velocity.x = 0;
+		this.sprite.body.velocity.y = 0;
+
 		//	Get Player position
 		var distance = player.position.sub ( this.position );
 
 		//	Get Distance Squared
 		var distSqr = distance.dot ( distance );
 
-		if ( distSqr < 100000 )
+		if ( distSqr < 100000 && distSqr > 5000 )
 		{
-			this.sprite.isoX = this.lerp ( this.position.x, player.position.x, 0.001 );
-			this.sprite.isoY = this.lerp ( this.position.y, player.position.y, 0.001 );
+			if ( distance.x < -6 || distance.x > 6 )
+				this.intAnimationMask |= ( ( distance.x > 0 ) ? 0x4 : 0x1 );
 
-			this.intAnimationMask |= ( ( distance.x > 0 ) ? 0x4 : 0x1 );
-			this.intAnimationMask |= ( ( distance.y > 0 ) ? 0x8 : 0x2 );
+			if ( distance.y < -6 || distance.y > 6 )
+				this.intAnimationMask |= ( ( distance.y > 0 ) ? 0x8 : 0x2 );
+
+			console.log ( "MASK : " + this.intAnimationMask + " Dist : X - " + distance.x + " Y - " + distance.y );
 		}
 
 		this.animate ( );
