@@ -68,19 +68,18 @@ BasicGame.Boot =
 
 			// Let's make a load of cubes on a grid, but do it back-to-front so they get added out of order.
 			var map;
-			for ( var xx = 0; xx < 27; ++xx ) 
+
+			for ( var x = 0; x < 2048; x += 100 )
 			{
-				for ( var yy = 0; yy < 27; ++yy ) 
+				for ( var y = 0; y < 2048; y += 100 )
 				{
-					// Create a cube using the new game.add.isoSprite factory method at the specified position.
-					// The last parameter is the group you want to add it to (just like game.add.sprite)
-					map = game.add.isoSprite ( xx * 103, yy * 103, 0, 'cube', 0, mapGroup );
-					map.anchor.set ( 0.5, 0.5 );
+					map = game.add.isoSprite ( x, y, 0, 'cube', 0, mapGroup );
+					map.anchor.set ( 0.5, 0.0 );
 				}
 			}
 
 			//	Generate First Wave Of Enemies
-			for ( var i = 0; i < 1; ++i )
+			for ( var i = 0; i < 5; ++i )
 			{
 				var enemy = new Enemy ( new Vector2 ( ( 64 * i + 64 ) << 1, ( 64 * i + 64 ) << 1 ) );
 				enemy.sprite.anchor.set ( 0.5 );
@@ -174,8 +173,6 @@ BasicGame.Boot =
 			player.sprite.body.velocity.x = 0;
 			player.sprite.body.velocity.y = 0;
 
-			console.log ( this.intKeyMask );
-
 			switch ( this.intKeyMask )
 			{
 					//	Idle
@@ -233,20 +230,20 @@ BasicGame.Boot =
 				this.intKeyMask = -1;
 			}
 
-			game.physics.isoArcade.collide ( isoGroup2 );
-			game.iso.topologicalSort ( isoGroup2 );
-
 			for ( var i = 0; i < enemies.length; ++i )
 			{
 				enemies [ i ].update ( );
 			}
+
+			game.physics.isoArcade.collide ( enemyGroup );
+			game.iso.topologicalSort ( enemyGroup );
 
 			l++;
 
 			if (l === update_interval)
 			{
 				this.changeWindDirection();
-				update_interval = Math.floor(Math.random() * 20) * 60; // 0 - 20sec @ 60fps
+				update_interval = Math.floor ( Math.random() * 20) * 60; // 0 - 20sec @ 60fps
 				l = 0;
 			}
 		},
