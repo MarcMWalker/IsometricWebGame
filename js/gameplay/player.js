@@ -4,11 +4,10 @@ class Player
 	{
 		this.sprite = game.add.isoSprite (position.x, position.y, 0, "knight", 0 );
 
-
 		this.sprite.tint = 0x86bfda;
 		this.sprite.anchor.set ( 0.5, 0.5 );
 
- 	        //Attack animations
+		//Attack animations
 		this.sprite.animations.add('AS', [132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149], 15 );
 		this.sprite.animations.add('AN', [37,38,39,40,41,42,44,45,46,47,48,49,50,51,52,53,54,55], 15 );
 		this.sprite.animations.add('AW', [94,95,96,97,98,99,100,101,102,103,104,105,106,107,110,111], 15 );
@@ -30,6 +29,7 @@ class Player
 
 		game.physics.isoArcade.enable ( this.sprite );
 		this.sprite.body.collideWorldBounds = true;
+		this.intAttackRange = 110;
 	}
 
 	get position ( )
@@ -44,20 +44,26 @@ class Player
 
 	handle_attack ( prevMask )
 	{
+		var attackDirection = new Vector2 ( 0, 0 );
+
 		switch ( prevMask )
 		{
 				//	Straights
 			case 1:
 				this.sprite.animations.play ( 'AW' );
+				attackDirection.x = -1;
 				break;
 			case 2:
 				this.sprite.animations.play ( 'AN' );
+				attackDirection.y = -1;
 				break;
 			case 4:
 				this.sprite.animations.play ( 'AE' );
+				attackDirection.x = 1;
 				break;
 			case 8:
 				this.sprite.animations.play ( 'AS' );
+				attackDirection.y = 1;
 				break;
 
 				//	Diagonals
@@ -74,5 +80,20 @@ class Player
 				this.sprite.animations.play ( 'ASW' );
 				break;				
 		}
+
+		enemies.forEach ( function ( enemy ) { 
+			var dist = enemy.position.sub ( player.position );
+
+			var dot = attackDirection.dot ( dist );
+			var distSqr = dist.dot ( dist );
+
+			if ( dot > 0 && distSqr < player.intAttackRange * player.intAttackRange )
+			{
+				enemy.intHealth -= 10;
+				enemy.sprite.tint = 0x0000FF;
+			}
+			else
+				enemy.sprite.tint = 0xFF0000;
+		} );
 	}
 }
