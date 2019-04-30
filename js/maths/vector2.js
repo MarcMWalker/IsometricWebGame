@@ -39,4 +39,10 @@ class Vector2
 	{
 		return new Vector2 ( this.x / this.magnitude ( ), this.y / this.magnitude ( ) );
 	}
+
+	zero ( )
+	{
+		this.x = 0;
+		this.y = 0;
+	}
 }
