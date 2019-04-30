@@ -8,7 +8,7 @@ class Player
 		this.sprite.tint = 0x86bfda;
 		this.sprite.anchor.set ( 0.5, 0.5 );
 
-        //Attack animations
+ 	        //Attack animations
 		this.sprite.animations.add('AS', [132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149], 15 );
 		this.sprite.animations.add('AN', [37,38,39,40,41,42,44,45,46,47,48,49,50,51,52,53,54,55], 15 );
 		this.sprite.animations.add('AW', [94,95,96,97,98,99,100,101,102,103,104,105,106,107,110,111], 15 );
