@@ -1,9 +1,3 @@
-var game = new Phaser.Game(1920, 1080, Phaser.AUTO, 'test', null, true, false);
-
-var BasicGame = function (game) { };
-
-BasicGame.Boot = function (game) { };
-
 /*
  * 	TODO: After enemy array length has reached zero, increase wave number and spawn another set of enemies.
  * */
@@ -24,21 +18,11 @@ var back_emitter;
 var update_interval = 240;
 var l = 0;
 
-BasicGame.Boot = 
-	{
+var playState = {
 		intKeyMask : 0,
 		intPrevMask : 0,
 		preload: function ( )
 		{
-			game.load.image('cube', 'assets/images/cube3.png');
-			game.load.image('cube1', 'assets/images/cube2.png');
-			game.load.image('cube2', 'assets/images/cube4.png');
-			game.load.image('cube3', 'assets/images/cube1.png');
-			game.load.image('raindrop', 'assets/images/rain.png');
-			game.load.spritesheet('knight', 'assets/images/spritesheet-min.png', 360,308);
-			game.load.image('leaf', 'assets/images/leaf.png');
-			game.load.image('leaf2', 'assets/images/leaf2.png');
-			game.load.image('leaf3', 'assets/images/leaf3.png');
 
 			game.time.advancedTiming = true;
 
@@ -253,22 +237,22 @@ BasicGame.Boot =
 		handle_keys: function ( event )
 		{
 			//	Reset After Attack
-			if ( BasicGame.Boot.intKeyMask === -1 )
-				BasicGame.Boot.intKeyMask = 0;
+			if ( playState.intKeyMask === -1 )
+				playState.intKeyMask = 0;
 
 			switch ( event.keyCode )
 			{
 				case 37:
-					BasicGame.Boot.intKeyMask |= 0x1;
+					playState.intKeyMask |= 0x1;
 					break;
 				case 38:
-					BasicGame.Boot.intKeyMask |= 0x2;
+					playState.intKeyMask |= 0x2;
 					break;
 				case 39:
-					BasicGame.Boot.intKeyMask |= 0x4;
+					playState.intKeyMask |= 0x4;
 					break;
 				case 40:
-					BasicGame.Boot.intKeyMask |= 0x8;
+					playState.intKeyMask |= 0x8;
 					break;
 			}
 		},
@@ -277,16 +261,16 @@ BasicGame.Boot =
 			switch ( event.keyCode )
 			{
 				case 37:
-					BasicGame.Boot.intKeyMask ^= 0x1;
+					playState.intKeyMask ^= 0x1;
 					break;
 				case 38:
-					BasicGame.Boot.intKeyMask ^= 0x2;
+					playState.intKeyMask ^= 0x2;
 					break;
 				case 39:
-					BasicGame.Boot.intKeyMask ^= 0x4;
+					playState.intKeyMask ^= 0x4;
 					break;
 				case 40:
-					BasicGame.Boot.intKeyMask ^= 0x8;
+					playState.intKeyMask ^= 0x8;
 					break;
 			}
 		},
@@ -319,6 +303,3 @@ BasicGame.Boot =
 
 		}
 	};
-
-game.state.add('Boot', BasicGame.Boot);
-game.state.start('Boot');
