@@ -2,16 +2,14 @@ var menuState = {
     
     create : function(game)
     {
-        var music = game.add.audio('main');
-        music.play();
+        game.music = this.add.audio('main')
+        game.music.play();
         
-        console.log ( "MenuState Create" );
-        //button = game.add.button(game.world.centerX,game.world.centerY + 32, 300, 100, 'button', actionOnClickEasy);
+        //console.log ( "MenuState Create" );
         
-        this.createButton ( "Click Here To Play", game.world.centerX,game.world.centerY + 32, 300, 100, function() { 
-            music.destroy();
-            this.state.start('play');
-            console.log("clicked");
+        this.createButton ( "Choose your Knight", game.world.centerX,game.world.centerY + 32, 300, 100, function() { 
+            this.state.start('select');
+            //console.log("clicked");
         });
         
         this.createButton ( "Learn How To Play",game.world.centerX,game.world.centerY + 192, 300, 100, function(){
