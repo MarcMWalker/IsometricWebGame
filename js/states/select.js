@@ -1,27 +1,21 @@
-var menuState = {
+var selectState = {
     
     create : function(game)
     {
-        var music = game.add.audio('main');
-        music.play();
-        
-        console.log ( "MenuState Create" );
-        //button = game.add.button(game.world.centerX,game.world.centerY + 32, 300, 100, 'button', actionOnClickEasy);
-        
-        this.createButton ( "Click Here To Play", game.world.centerX,game.world.centerY + 32, 300, 100, function() { 
-            music.destroy();
-            this.state.start('play');
-            console.log("clicked");
+        this.createButton ( "Click to Continue", game.world.centerX,game.world.centerY + 164, 300, 100, function() { 
+            this.state.start('menu');
         });
         
-        this.createButton ( "Learn How To Play",game.world.centerX,game.world.centerY + 192, 300, 100, function(){
-            this.state.start('About');
-        });
-        
-        titlescreen = game.add.sprite(game.world.centerX,game.world.centerY - 192, "titlescreen");
+        titlescreen = game.add.sprite(game.world.centerX,game.world.centerY - 192, "title");
         titlescreen.anchor.setTo(0.5,0.5);
+        titlescreen.scale.setTo(0.5, 0.5);
         titlescreen.alpha = 0;
         game.add.tween(titlescreen).to({alpha: 1}, 6000, "Linear", true);
+        
+        subTitle = game.add.sprite(game.world.centerX - 650,game.world.centerY - 90, "subTitle");
+        subTitle.anchor.setTo(0.5,0.5);
+        subTitle.alpha = 0;
+        game.add.tween(subTitle).to({alpha: 1}, 12000, "Linear", true);
         
         game.stage.backgroundColor = 0xFF0000;
     },
@@ -41,7 +35,6 @@ var menuState = {
         var txt = game.add.text(button1.x,button1.y, string, {font:"14px Arial", fill :"#fff", align:"centre"});
         
         txt.anchor.setTo(0.5,0.5);
-        
     },
 
  };

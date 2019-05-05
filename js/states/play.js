@@ -7,8 +7,11 @@ var mapGroup;
 var wallGroup, wall;
 var isoGroup2, player;
 var enemyGroup;
+var portalGroup;
 
 var enemies = [ ];
+var portal;
+var portalSpeed;
 
 var max = 0;
 var front_emitter;
@@ -47,6 +50,7 @@ var playState = {
 			mapGroup = game.add.group ( );
 			isoGroup2 = game.add.group ( );
 			enemyGroup = game.add.group ( );
+            portalGroup = game.add.group();
 
 			game.physics.isoArcade.gravity.setTo ( 0,0,-500 );
 
@@ -149,6 +153,8 @@ var playState = {
 			mid_emitter.start(false, 10000, 30);
 			secondMid_emitter.start(false, 10000, 30);
 			front_emitter.start(false, 20000, 10);
+            
+            portal = new Portal ( new Vector2 (1000,1000));
 		},
 		update: function ( )
 		{
@@ -230,6 +236,20 @@ var playState = {
 				update_interval = Math.floor ( Math.random() * 20) * 60; // 0 - 20sec @ 60fps
 				l = 0;
 			}
+            
+            var activated = false
+            if(activated = false){
+            portal.sprite.animations.play ( 'activate' );
+                activated = true;
+            }else{
+                portal.sprite.animations.play ( 'repeat' );
+            }
+            
+            /*if (enemies.length <= 4)
+            {
+                portal.sprite.animations.play ( 'activate' );
+            }*/
+            //portalSpeed++;
 		},
 		render: function ( ) 
 		{
