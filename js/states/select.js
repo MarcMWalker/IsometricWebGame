@@ -2,7 +2,10 @@ var selectState = {
     
     create : function(game)
     {
+        //Music from menuState carried over to selectState
         var music = menuState.music
+        
+        //Initilaising function to create buttons for character selection
         this.createButton ( "Choose Tuscan Knight", game.world.centerX - 464,game.world.centerY + 164, 300, 100, function() { 
             game.music.stop();
             this.game.state.start('play');
@@ -18,6 +21,7 @@ var selectState = {
             this.game.state.start('play');
         });
         
+        //Banner art created for Tuscan, Green and Black Knights
         banner1 = game.add.sprite(game.world.centerX - 464,game.world.centerY - 180, "banner");
         banner1.anchor.setTo(0.5,0.5);
         knight1 = game.add.sprite(game.world.centerX - 445,game.world.centerY - 240, "tuscanPic");
@@ -73,7 +77,6 @@ var selectState = {
         shortSword3 = game.add.sprite(game.world.centerX + 444,game.world.centerY - 10, "shortsword");
         shortSword3b = game.add.sprite(game.world.centerX + 484,game.world.centerY - 10, "shortsword");
         shortSword3c = game.add.sprite(game.world.centerX + 524,game.world.centerY - 10, "shortsword");
-        
         hp3 = game.add.sprite(game.world.centerX + 145, game.world.centerY - 195, "hpPickup");
     },
     update : function(game)
@@ -83,12 +86,15 @@ var selectState = {
     {},
     createButton : function(string,x,y,w,h,callback) 
     {
+        //Button created
         var button1 = game.add.button(x,y,"button",callback,this);
         
+        //Button width, height and anchor set
         button1.anchor.setTo(0.5,0.5);
         button1.width = w;
         button1.height = h;
         
+        //Text and anchor for button created
         var txt = game.add.text(button1.x,button1.y, string, {font:"14px Arial", fill :"#fff", align:"centre"});
         
         txt.anchor.setTo(0.5,0.5);

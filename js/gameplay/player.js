@@ -2,8 +2,10 @@ class Player
 {
 	constructor ( position )
 	{
+        //Create player
 		this.sprite = game.add.isoSprite (position.x, position.y, 0, "knight", 0 );
 
+        //Colour+anchor of Tuscan, Green and Black Knights
 		this.sprite.tint = 0x86bfda;
         //this.sprite.tint = 0x33322A;
         //this.sprite.tint = 0x128E12;
@@ -29,11 +31,13 @@ class Player
 		this.sprite.animations.add('SW', [530,531,532,533,534,535,536,537,538,539,540,541,542,543,544], 15, true);
 		this.sprite.animations.add('NW', [498,499,500,501,502,503,504,506,507,508,509,510,511,512,513], 15, true);
 
+        //Physics, collision and attack distance applied to player
 		game.physics.isoArcade.enable ( this.sprite );
 		this.sprite.body.collideWorldBounds = true;
 		this.intAttackRange = 110;
 	}
 
+    //Return position of player in x,y location
 	get position ( )
 	{
 		return new Vector2 ( this.sprite.isoX, this.sprite.isoY );
@@ -46,8 +50,12 @@ class Player
 
 	handle_attack ( prevMask )
 	{
+        //Direction for player
 		var attackDirection = new Vector2 ( 0, 0 );
 
+         /*Controls direction of attack and which animation 
+          * to use in both straight and diagonal directions for player
+          */
 		switch ( prevMask )
 		{
 				//	Straights
@@ -83,18 +91,21 @@ class Player
 				break;				
 		}
 
+        //For each enemy AI record how far away they are from player
 		enemies.forEach ( function ( enemy ) { 
 			var dist = enemy.position.sub ( player.position );
-
 			var dot = attackDirection.dot ( dist );
 			var distSqr = dist.dot ( dist );
 
+            //If dot and distSqr parameters met, player is within range of attack and so enemy loses health
 			if ( dot > 0 && distSqr < player.intAttackRange * player.intAttackRange )
 			{
+                //Lose health and change colour tint of attacked enemy
 				enemy.intHealth -= 10;
 				enemy.sprite.tint = 0x0000FF;
 			}
 			else
+                //Keep current red tint
 				enemy.sprite.tint = 0xFF0000;
 		} );
 	}

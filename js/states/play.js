@@ -2,17 +2,22 @@
  * 	TODO: After enemy array length has reached zero, increase wave number and spawn another set of enemies.
  * */
 
-//Woking on splitting up isogroups to provide more adequate game structure
+//Working on splitting up isogroups to provide more adequate game structure
+
+//Variables for isoGroups
 var mapGroup;
 var wallGroup, wall;
 var isoGroup2, player;
 var enemyGroup;
 var portalGroup;
 
+//Enemies array variable, portal and portal
 var enemies = [ ];
+
 var portal;
 var portalSpeed;
 
+//Variables for leaf animation
 var max = 0;
 var front_emitter;
 var mid_emitter;
@@ -46,7 +51,7 @@ var playState = {
 		},
 		create: function ( )
 		{
-			// Create a group for our tiles, so we can use Group.sort
+			// Create a isoGroups for game, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
 			mapGroup = game.add.group ( );
 			isoGroup2 = game.add.group ( );
 			enemyGroup = game.add.group ( );
@@ -54,7 +59,7 @@ var playState = {
 
 			game.physics.isoArcade.gravity.setTo ( 0,0,-500 );
 
-			// Let's make a load of cubes on a grid, but do it back-to-front so they get added out of order.
+			//Cubes added to map, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
 			var map;
 
 			for ( var x = 0; x < 2048; x += 100 )
@@ -86,17 +91,15 @@ var playState = {
 			//	Get Keys When Pressed
 			this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, this.reset_keys );
 
+            //Rain emitter created and set around entire screen, influenced by: https://phaser.io/examples/v2/particles/rain
 			var emitter = game.add.emitter(game.world.centerX, 1920, 1080);
 
 			emitter.width = game.world.width;
-			//emitter.angle = 20; // uncomment to set an angle for the rain.
-
 			emitter.makeParticles('raindrop');
 			emitter.minParticleScale = 0.1;
 			emitter.maxParticleScale = 0.6;
 			emitter.setYSpeed(600, 600);
 			emitter.setXSpeed(-5, 5);
-
 			emitter.minRotation = 0;
 			emitter.maxRotation = 0;
 			emitter.start(false, 16600, 0, 0);
@@ -114,6 +117,7 @@ var playState = {
 			back_emitter.minRotation = 0;
 			back_emitter.maxRotation = 40;
 
+            //Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
 			mid_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
 			mid_emitter.width = game.world.width;
 			mid_emitter.makeParticles('leaf2');
@@ -125,6 +129,7 @@ var playState = {
 			mid_emitter.minRotation = 0;
 			mid_emitter.maxRotation = 40;
 
+            //Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
 			secondMid_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
 			secondMid_emitter.width = game.world.width;
 			secondMid_emitter.makeParticles('leaf2');
@@ -136,6 +141,7 @@ var playState = {
 			secondMid_emitter.minRotation = 0;
 			secondMid_emitter.maxRotation = 40;
 
+            //Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
 			front_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
 			front_emitter.width = game.world.width;
 			front_emitter.makeParticles('leaf3');
@@ -147,8 +153,10 @@ var playState = {
 			front_emitter.minRotation = 0;
 			front_emitter.maxRotation = 40;
 
+            //Function influenced by: https://phaser.io/examples/v2/particles/snow
 			this.changeWindDirection();
 
+            //Influenced by: https://phaser.io/examples/v2/particles/snow
 			back_emitter.start(false, 22000, 10);
 			mid_emitter.start(false, 10000, 30);
 			secondMid_emitter.start(false, 10000, 30);
@@ -225,6 +233,7 @@ var playState = {
 				enemies [ i ].update ( );
 			}
 
+            //Game physics applied to enemyGroup and sorting of layers in isometric format
 			game.physics.isoArcade.collide ( enemyGroup );
 			game.iso.topologicalSort ( enemyGroup );
 
@@ -237,6 +246,7 @@ var playState = {
 				l = 0;
 			}
             
+            //***TODO: Portal activation when all enemies dead
             var activated = false
             if(activated = false){
             portal.sprite.animations.play ( 'activate' );
@@ -294,6 +304,8 @@ var playState = {
 					break;
 			}
 		},
+        
+        //Function for the wind direction of leaves, influenced by: https://phaser.io/examples/v2/particles/snow
 		changeWindDirection : function () {
 
 			var multi = Math.floor((max + 200) / 4),
@@ -310,16 +322,17 @@ var playState = {
 
 		},
 
+        //Influenced by: https://phaser.io/examples/v2/particles/snow
 		setXSpeed : function (emitter, max) {
 
 			emitter.setXSpeed(max - 2, max);
 			emitter.forEachAlive(this.setParticleXSpeed, this, max);
 
 		},
-
+    
+        //Influenced by: https://phaser.io/examples/v2/particles/snow
 		setParticleXSpeed : function (particle, max) {
 
 			particle.body.velocity.x = max - Math.floor(Math.random() * 300);
-
 		}
 	};
