@@ -14,7 +14,7 @@ var menuState = {
         
         //Create button with x,y coordiantes, if clicked enter 'About' state
         this.createButton ( "Learn How To Play",game.world.centerX,game.world.centerY + 192, 300, 100, function(){
-            this.state.start('About');
+            this.state.start('controls');
         });
         
         /*Title screen image of 'Battle Arena' applied to screen with 

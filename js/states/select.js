@@ -21,6 +21,11 @@ var selectState = {
             this.game.state.start('play');
         });
         
+        this.createButton ( "Back", game.world.centerX ,game.world.centerY + 324, 300, 100, function() { 
+            game.music.stop();
+            this.game.state.start('menu');
+        });
+        
         //Banner art created for Tuscan, Green and Black Knights
         banner1 = game.add.sprite(game.world.centerX - 464,game.world.centerY - 180, "banner");
         banner1.anchor.setTo(0.5,0.5);

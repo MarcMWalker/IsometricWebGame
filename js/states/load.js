@@ -18,6 +18,8 @@ var loadState = {
          *http://dapinographics.com/projects/vintage-scroll-frame-with-banner/
          *https://opengameart.org/content/short-sword-64x64
          *https://opengameart.org/content/health-pickup
+         *https://www.shareicon.net/computer-mouse-technology-electronic-electronics-computing-computer-mouse-clicker-technological-835870
+         *https://www.shareicon.net/keyboard-key-key-down-arrow-keyboard-interface-807469
          */
         
         game.load.image('cube', 'assets/images/cube3.png');
@@ -40,6 +42,10 @@ var loadState = {
         game.load.image('recoverText', 'assets/images/recoveryText.png');
         game.load.image('shortsword', 'assets/images/shortsword.png');
         game.load.image('hpPickup', 'assets/images/+.png');
+        game.load.image('keyboard', 'assets/images/keyboard.png');
+        game.load.image('mouse', 'assets/images/computer.png');
+        game.load.image('attackText2', 'assets/images/attack.png');
+        game.load.image('moveText', 'assets/images/movement.png');
         
         //Load audio files, music taken from: https://www.bensound.com/royalty-free-music/track/birth-of-a-hero
         game.load.audio('main', 'assets/sound/birthofahero.mp3')
