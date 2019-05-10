@@ -18,6 +18,7 @@ class Vector2
 		return new Vector2 ( this.x - rhand.x, this.y - rhand.y );
 	}
 
+	//	Multiply vector by a scalar value
 	mul ( scalar )
 	{
 		return new Vector2 ( this.x * scalar, this.y * scalar );
@@ -35,11 +36,13 @@ class Vector2
 		return Math.sqrt ( this.x * this.x + this.y * this.y );
 	}
 
+	//	Get a direction vector
 	normalize ( )
 	{
 		return new Vector2 ( this.x / this.magnitude ( ), this.y / this.magnitude ( ) );
 	}
 
+	//	Set vector to zero
 	zero ( )
 	{
 		this.x = 0;
