@@ -171,53 +171,7 @@ var playState = {
 		player.sprite.body.velocity.x = 0;
 		player.sprite.body.velocity.y = 0;
 
-		switch ( this.intKeyMask )
-		{
-				//	Idle
-			case 0:
-				player.sprite.animations.stop ( );
-				break;
-
-				//	Straights
-			case 1:
-				player.sprite.body.velocity.x = -speed;
-				player.sprite.animations.play ( 'W' );
-				break;
-			case 2:
-				player.sprite.body.velocity.y = -speed;
-				player.sprite.animations.play ( 'N' );
-				break;
-			case 4:
-				player.sprite.body.velocity.x = speed;
-				player.sprite.animations.play ( 'E' );
-				break;
-			case 8:
-				player.sprite.body.velocity.y = speed;
-				player.sprite.animations.play ( 'S' );
-				break;
-
-				//	Diagonals
-			case 6:
-				player.sprite.body.velocity.x = speed;
-				player.sprite.body.velocity.y = -speed;
-				player.sprite.animations.play ( 'NE' );
-				break;
-			case 3:
-				player.sprite.body.velocity.x = -speed;
-				player.sprite.body.velocity.y = -speed;
-				player.sprite.animations.play ( 'NW' );
-				break;
-			case 12:
-				player.sprite.body.velocity.x = speed;
-				player.sprite.body.velocity.y = speed;
-				player.sprite.animations.play ( 'SE' );
-				break;
-			case 9:
-				player.sprite.body.velocity.x = -speed;
-				player.sprite.body.velocity.y = speed;
-				player.sprite.animations.play ( 'SW' );
-				break;				
-		}
+		player.animate ( this.intKeyMask );
 
 		if ( this.intKeyMask > 0 )
 			this.intPrevMask = this.intKeyMask;
@@ -233,15 +187,15 @@ var playState = {
 			enemies [ i ].update ( );
 		}
 
-		//Game physics applied to enemyGroup and sorting of layers in isometric format
+		//	Game physics applied to enemyGroup and sorting of layers in isometric format
 		game.physics.isoArcade.collide ( enemyGroup );
 		game.iso.topologicalSort ( enemyGroup );
 
 		l++;
 
-		if (l === update_interval)
+		if ( l === update_interval )
 		{
-			this.changeWindDirection();
+			this.changeWindDirection ( );
 			update_interval = Math.floor ( Math.random() * 20) * 60; // 0 - 20sec @ 60fps
 			l = 0;
 		}
