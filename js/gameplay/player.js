@@ -141,15 +141,23 @@ class Player
 					//	Diagonals
 				case 6:
 					this.sprite.animations.play ( 'ANE' );
+					attackDirection.x = 1;
+					attackDirection.y = -1;
 					break;
 				case 3:
 					this.sprite.animations.play ( 'ANW' );
+					attackDirection.x = -1;
+					attackDirection.y = -1;
 					break;
 				case 12:
 					this.sprite.animations.play ( 'ASE' );
+					attackDirection.x = 1;
+					attackDirection.y = 1;
 					break;
 				case 9:
 					this.sprite.animations.play ( 'ASW' );
+					attackDirection.x = -1;
+					attackDirection.y = 1;
 					break;				
 			}
 
