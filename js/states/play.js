@@ -62,9 +62,9 @@ var playState = {
 		//Cubes added to map, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
 		var map;
 
-		for ( var x = 0; x < 2048; x += 100 )
+		for ( var x = 0; x < 4096; x += 100 )
 		{
-			for ( var y = 0; y < 2048; y += 100 )
+			for ( var y = 0; y < 4096; y += 100 )
 			{
 				map = game.add.isoSprite ( x, y, 0, 'cube', 0, mapGroup );
 				map.anchor.set ( 0.5, 0.0 );
