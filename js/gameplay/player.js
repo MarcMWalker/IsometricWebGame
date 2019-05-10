@@ -2,13 +2,13 @@ class Player
 {
 	constructor ( position )
 	{
-        //Create player
+		//Create player
 		this.sprite = game.add.isoSprite (position.x, position.y, 0, "knight", 0 );
 
-        //Colour+anchor of Tuscan, Green and Black Knights
+		//Colour+anchor of Tuscan, Green and Black Knights
 		this.sprite.tint = 0x86bfda;
-        //this.sprite.tint = 0x33322A;
-        //this.sprite.tint = 0x128E12;
+		//this.sprite.tint = 0x33322A;
+		//this.sprite.tint = 0x128E12;
 		this.sprite.anchor.set ( 0.5, 0.5 );
 
 		//Attack animations
@@ -31,82 +31,145 @@ class Player
 		this.sprite.animations.add('SW', [530,531,532,533,534,535,536,537,538,539,540,541,542,543,544], 15, true);
 		this.sprite.animations.add('NW', [498,499,500,501,502,503,504,506,507,508,509,510,511,512,513], 15, true);
 
-        //Physics, collision and attack distance applied to player
+		//	Physics, collision and attack distance applied to player
 		game.physics.isoArcade.enable ( this.sprite );
 		this.sprite.body.collideWorldBounds = true;
+
 		this.intAttackRange = 110;
+		this.intSpeed = 400;
+		this.bolAttacking = false;
 	}
 
-    //Return position of player in x,y location
+	//	Return position of player in x,y location
 	get position ( )
 	{
 		return new Vector2 ( this.sprite.isoX, this.sprite.isoY );
 	}
 
-	animate ( )
+	animate ( intKeyMask )
 	{
-		//	TODO: Move Player Animation Code here
+		if ( !this.bolAttacking )
+		{
+			switch ( intKeyMask )
+			{
+					//	Idle
+				case 0:
+					player.sprite.animations.stop ( );
+					break;
+
+					//	Straights
+				case 1:
+					player.sprite.body.velocity.x = -this.intSpeed;
+					player.sprite.animations.play ( 'W' );
+					break;
+				case 2:
+					player.sprite.body.velocity.y = -this.intSpeed;
+					player.sprite.animations.play ( 'N' );
+					break;
+				case 4:
+					player.sprite.body.velocity.x = this.intSpeed;
+					player.sprite.animations.play ( 'E' );
+					break;
+				case 8:
+					player.sprite.body.velocity.y = this.intSpeed;
+					player.sprite.animations.play ( 'S' );
+					break;
+
+					//	Diagonals
+				case 6:
+					player.sprite.body.velocity.x = this.intSpeed;
+					player.sprite.body.velocity.y = -this.intSpeed;
+					player.sprite.animations.play ( 'NE' );
+					break;
+				case 3:
+					player.sprite.body.velocity.x = -this.intSpeed;
+					player.sprite.body.velocity.y = -this.intSpeed;
+					player.sprite.animations.play ( 'NW' );
+					break;
+				case 12:
+					player.sprite.body.velocity.x = this.intSpeed;
+					player.sprite.body.velocity.y = this.intSpeed;
+					player.sprite.animations.play ( 'SE' );
+					break;
+				case 9:
+					player.sprite.body.velocity.x = -this.intSpeed;
+					player.sprite.body.velocity.y = this.intSpeed;
+					player.sprite.animations.play ( 'SW' );
+					break;				
+			}
+		}
+
+		if ( this.bolAttacking && this.sprite.animations.currentAnim.isFinished )
+		{
+			this.bolAttacking = false;
+		}
 	}
 
 	handle_attack ( prevMask )
 	{
-        //Direction for player
-		var attackDirection = new Vector2 ( 0, 0 );
-
-         /*Controls direction of attack and which animation 
-          * to use in both straight and diagonal directions for player
-          */
-		switch ( prevMask )
+		if ( !this.bolAttacking )
 		{
-				//	Straights
-			case 1:
-				this.sprite.animations.play ( 'AW' );
-				attackDirection.x = -1;
-				break;
-			case 2:
-				this.sprite.animations.play ( 'AN' );
-				attackDirection.y = -1;
-				break;
-			case 4:
-				this.sprite.animations.play ( 'AE' );
-				attackDirection.x = 1;
-				break;
-			case 8:
-				this.sprite.animations.play ( 'AS' );
-				attackDirection.y = 1;
-				break;
+			this.bolAttacking = true;
 
-				//	Diagonals
-			case 6:
-				this.sprite.animations.play ( 'ANE' );
-				break;
-			case 3:
-				this.sprite.animations.play ( 'ANW' );
-				break;
-			case 12:
-				this.sprite.animations.play ( 'ASE' );
-				break;
-			case 9:
-				this.sprite.animations.play ( 'ASW' );
-				break;				
-		}
+			//	Attack direction
+			var attackDirection = new Vector2 ( 0, 0 );
 
-        //For each enemy AI record how far away they are from player
-		enemies.forEach ( function ( enemy ) { 
-			var dist = enemy.position.sub ( player.position );
-			var dot = attackDirection.dot ( dist );
-			var distSqr = dist.dot ( dist );
-
-            //If dot and distSqr parameters met, player is within range of attack and so enemy loses health
-			if ( dot > 0 && distSqr < player.intAttackRange * player.intAttackRange )
+			/*
+			 * 	Controls direction of attack and which animation 
+			 * 	to use in both straight and diagonal directions for player
+			 */
+			switch ( prevMask )
 			{
-                //Lose health and change colour tint of attacked enemy
-				enemy.intHealth -= 10;
-				enemy.sprite.tint = 0x0000FF;
+					//	Straights
+				case 1:
+					this.sprite.animations.play ( 'AW' );
+					attackDirection.x = -1;
+					break;
+				case 2:
+					this.sprite.animations.play ( 'AN' );
+					attackDirection.y = -1;
+					break;
+				case 4:
+					this.sprite.animations.play ( 'AE' );
+					attackDirection.x = 1;
+					break;
+				case 8:
+					this.sprite.animations.play ( 'AS' );
+					attackDirection.y = 1;
+					break;
+
+					//	Diagonals
+				case 6:
+					this.sprite.animations.play ( 'ANE' );
+					break;
+				case 3:
+					this.sprite.animations.play ( 'ANW' );
+					break;
+				case 12:
+					this.sprite.animations.play ( 'ASE' );
+					break;
+				case 9:
+					this.sprite.animations.play ( 'ASW' );
+					break;				
 			}
-			else
-                //Keep current red tint
-				enemy.sprite.tint = 0xFF0000;
-		} );
+
+			//	For each enemy AI record how far away they are from player
+			enemies.forEach ( function ( enemy ) { 
+				var dist = enemy.position.sub ( player.position );
+				var dot = attackDirection.dot ( dist );
+				var distSqr = dist.dot ( dist );
+
+				//	If dot and distSqr parameters met, player is within range of attack and so enemy loses health
+				if ( dot > 0 && distSqr < player.intAttackRange * player.intAttackRange )
+				{
+					//Lose health and change colour tint of attacked enemy
+					enemy.intHealth -= 10;
+					enemy.sprite.tint = 0x0000FF;
+				}
+				else
+					//Keep current red tint
+					enemy.sprite.tint = 0xFF0000;
+			} );
+		}
 	}
 }
