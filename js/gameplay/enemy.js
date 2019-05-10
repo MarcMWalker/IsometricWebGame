@@ -31,7 +31,7 @@ class Enemy
 		this.sprite.animations.add('SW', [530,531,532,533,534,535,536,537,538,539,540,541,542,543,544], 15, true);
 		this.sprite.animations.add('NW', [498,499,500,501,502,503,504,506,507,508,509,510,511,512,513], 15, true);
 
-	    //Death animations
+		//Death animations
 		this.sprite.animations.add('D', [301,302,303,304,305,306,308,309,310,311,312,313,314,315,316,317], 15, false);
 
 		// TIMER
@@ -58,150 +58,153 @@ class Enemy
 	//check animation mask and set sprite
 	animate ( )
 	{
-        if ( !this.bolDead && !this.bolAttacking )
-        {
-            switch ( this.intAnimationMask )
-            {
-                    //	Idle
-                case 0:
-                    this.sprite.animations.stop ( );
-                    break;
+		if ( !this.bolDead && !this.bolAttacking )
+		{
+			switch ( this.intAnimationMask )
+			{
+					//	Idle
+				case 0:
+					this.sprite.animations.stop ( );
+					break;
 
-                    //	Straights
-                case 1:
-                    this.sprite.animations.play ( 'W' );
-                    this.sprite.body.velocity.x = -250;
+					//	Straights
+				case 1:
+					this.sprite.animations.play ( 'W' );
+					this.sprite.body.velocity.x = -250;
 
-                    this.vecForward.x = -1;
-                    break;
-                case 2:
-                    this.sprite.animations.play ( 'N' );
-                    this.sprite.body.velocity.y = -250;
+					this.vecForward.x = -1;
+					break;
+				case 2:
+					this.sprite.animations.play ( 'N' );
+					this.sprite.body.velocity.y = -250;
 
-                    this.vecForward.y = -1;
-                    break;
-                case 4:
-                    this.sprite.animations.play ( 'E' );
-                    this.sprite.body.velocity.x = 250;
+					this.vecForward.y = -1;
+					break;
+				case 4:
+					this.sprite.animations.play ( 'E' );
+					this.sprite.body.velocity.x = 250;
 
-                    this.vecForward.x = 1;
-                    break;
-                case 8:
-                    this.sprite.animations.play ( 'S' );
-                    this.sprite.body.velocity.y = 250;
+					this.vecForward.x = 1;
+					break;
+				case 8:
+					this.sprite.animations.play ( 'S' );
+					this.sprite.body.velocity.y = 250;
 
-                    this.vecForward.y = 1;
-                    break;
+					this.vecForward.y = 1;
+					break;
 
-                    //	Diagonals
-                case 6:
-                    this.sprite.animations.play ( 'NE' );
-                    this.sprite.body.velocity.x = 250;
-                    this.sprite.body.velocity.y = -250;
+					//	Diagonals
+				case 6:
+					this.sprite.animations.play ( 'NE' );
+					this.sprite.body.velocity.x = 250;
+					this.sprite.body.velocity.y = -250;
 
-                    this.vecForward.x = 1;
-                    this.vecForward.y = -1;
-                    break;
-                case 3:
-                    this.sprite.animations.play ( 'NW' );
-                    this.sprite.body.velocity.x = -250;
-                    this.sprite.body.velocity.y = -250;
+					this.vecForward.x = 1;
+					this.vecForward.y = -1;
+					break;
+				case 3:
+					this.sprite.animations.play ( 'NW' );
+					this.sprite.body.velocity.x = -250;
+					this.sprite.body.velocity.y = -250;
 
-                    this.vecForward.x = -1;
-                    this.vecForward.y = -1;
-                    break;
-                case 12:
-                    this.sprite.animations.play ( 'SE' );
-                    this.sprite.body.velocity.x = 250;
-                    this.sprite.body.velocity.y = 250;
+					this.vecForward.x = -1;
+					this.vecForward.y = -1;
+					break;
+				case 12:
+					this.sprite.animations.play ( 'SE' );
+					this.sprite.body.velocity.x = 250;
+					this.sprite.body.velocity.y = 250;
 
-                    this.vecForward.x = 1;
-                    this.vecForward.y = 1;
-                    break;
-                case 9:
-                    this.sprite.animations.play ( 'SW' );
-                    this.sprite.body.velocity.x = -250;
-                    this.sprite.body.velocity.y = 250;
+					this.vecForward.x = 1;
+					this.vecForward.y = 1;
+					break;
+				case 9:
+					this.sprite.animations.play ( 'SW' );
+					this.sprite.body.velocity.x = -250;
+					this.sprite.body.velocity.y = 250;
 
-                    this.vecForward.x = -1;
-                    this.vecForward.y = 1;
-                    break;				
-            }
+					this.vecForward.x = -1;
+					this.vecForward.y = 1;
+					break;				
+			}
 
 			if ( this.intAnimationMask != 0 )
 				this.intAttackMask = this.intAnimationMask;
 
-		  	this.intAnimationMask = 0;
-        }
+			this.intAnimationMask = 0;
+		}
 	}
 
 	//Handles enemy attacks
-    Attack ( )
-    {
-		var attackDirection = new Vector2 ( 0, 0 );
-		
-		this.bolAttacking = true;
-        
-        switch ( this.intAttackMask )
+	Attack ( )
+	{
+		if ( !this.bolDead )
 		{
-				//	Straights
-			case 1:
-				this.sprite.animations.play ( 'AW' );
-				attackDirection.x = -1;
-				break;
-			case 2:
-				this.sprite.animations.play ( 'AN' );
-				attackDirection.y = -1;
-				break;
-			case 4:
-				this.sprite.animations.play ( 'AE' );
-				attackDirection.x = 1;
-				break;
-			case 8:
-				this.sprite.animations.play ( 'AS' );
-				attackDirection.y = 1;
-				break;
+			var attackDirection = new Vector2 ( 0, 0 );
 
-				//	Diagonals
-			case 6:
-				this.sprite.animations.play ( 'ANE' );
-				attackDirection.x = 1;
-				attackDirection.y = -1;
-				break;
-			case 3:
-				this.sprite.animations.play ( 'ANW' );
-				attackDirection.x = -1;
-				attackDirection.y = -1;
-				break;
-			case 12:
-				this.sprite.animations.play ( 'ASE' );
-				attackDirection.x = 1;
-				attackDirection.y = 1;
-				break;
-			case 9:
-				this.sprite.animations.play ( 'ASW' );
-				attackDirection.x = -1;
-				attackDirection.y = 1;
-				break;							
+			this.bolAttacking = true;
+
+			switch ( this.intAttackMask )
+			{
+					//	Straights
+				case 1:
+					this.sprite.animations.play ( 'AW' );
+					attackDirection.x = -1;
+					break;
+				case 2:
+					this.sprite.animations.play ( 'AN' );
+					attackDirection.y = -1;
+					break;
+				case 4:
+					this.sprite.animations.play ( 'AE' );
+					attackDirection.x = 1;
+					break;
+				case 8:
+					this.sprite.animations.play ( 'AS' );
+					attackDirection.y = 1;
+					break;
+
+					//	Diagonals
+				case 6:
+					this.sprite.animations.play ( 'ANE' );
+					attackDirection.x = 1;
+					attackDirection.y = -1;
+					break;
+				case 3:
+					this.sprite.animations.play ( 'ANW' );
+					attackDirection.x = -1;
+					attackDirection.y = -1;
+					break;
+				case 12:
+					this.sprite.animations.play ( 'ASE' );
+					attackDirection.x = 1;
+					attackDirection.y = 1;
+					break;
+				case 9:
+					this.sprite.animations.play ( 'ASW' );
+					attackDirection.x = -1;
+					attackDirection.y = 1;
+					break;							
+			}
+
+			var dist = player.position.sub ( this.position );
+			var dot = attackDirection.dot ( dist );
+			var distSqr = dist.dot ( dist );
+
+			console.log ( "DOT : " + dot + " Dist : " + distSqr );
+
+			if ( dot > 0 && distSqr < this.intAttackRange * this.intAttackRange )
+			{
+				console.log ( "Attack" );
+				player.intHealth -= 10;
+				player.sprite.tint = 0x0000FF;
+			}
 		}
-        
-		var dist = player.position.sub ( this.position );
-		var dot = attackDirection.dot ( dist );
-		var distSqr = dist.dot ( dist );
-
-		console.log ( "DOT : " + dot + " Dist : " + distSqr );
-
-		if ( dot > 0 && distSqr < this.intAttackRange * this.intAttackRange )
-		{
-			console.log ( "Attack" );
-			player.intHealth -= 10;
-			player.sprite.tint = 0x0000FF;
-		}
-    }
+	}
 
 	//Moves the enemies towards the player
-    SimpleAI ( )
-    {
+	SimpleAI ( )
+	{
 		//	Get Player position
 		var distance = player.position.sub ( this.position );
 
@@ -218,23 +221,23 @@ class Enemy
 			if ( distance.y < -6 || distance.y > 6 )
 				this.intAnimationMask |= ( ( distance.y > 0 ) ? 0x8 : 0x2 );
 		}
-    }
-    
+	}
+
 	/*
 	 * 	Update game logic
 	 * */
 	update ( )
 	{
-        //Checks if Enemy is dead
+		//Checks if Enemy is dead
 		if ( this.intHealth <= 0 && this.bolDead == false )
 		{
-            this.bolDead = true;
-            this.sprite.animations.play ( 'D' );
-        }
-        
+			this.bolDead = true;
+			this.sprite.animations.play ( 'D' );
+		}
+
 		this.sprite.body.velocity.x = 0;
 		this.sprite.body.velocity.y = 0;
-        
+
 		this.SimpleAI ( );
 		this.animate ( );
 
