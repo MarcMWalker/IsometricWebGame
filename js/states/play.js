@@ -28,7 +28,7 @@ var l = 0;
 
 var playState = {
 	intKeyMask : 0,
-	intPrevMask : 0,
+	intPrevMask : 12,
 	preload: function ( )
 	{
 
