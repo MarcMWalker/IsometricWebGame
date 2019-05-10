@@ -2,7 +2,7 @@ class Portal
 {
 	constructor ( position )
 	{
-        //Portal sprite added to game as isoSprite, given portal animation and added to isoGroup = portalGroup
+		//Portal sprite added to game as isoSprite, given portal animation and added to isoGroup = portalGroup
 		this.sprite = game.add.isoSprite (position.x, position.y, 0, 'portal', portalGroup );
 		this.sprite.anchor.set ( 0.5, 0.5 );
 
@@ -11,7 +11,7 @@ class Portal
 		this.sprite.animations.add('repeat', [6,13,20,27,28,29], 13, true );
 	}
 
-    //X, Y location for portal sprite
+	//X, Y location for portal sprite
 	get position ( )
 	{
 		return new Vector2 ( this.sprite.isoX, this.sprite.isoY );
@@ -19,7 +19,7 @@ class Portal
 
 	animate ( )
 	{
-        //Switch statement to change between animation types
+		//	Switch statement to change between animation types
 		switch ( this.intAnimationMask )
 		{
 			case 1:
