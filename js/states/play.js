@@ -101,7 +101,6 @@ var playState = {
 
 		game.camera.follow ( player.sprite );
 
-
 		this.cursors = game.input.keyboard.createCursorKeys ( );
 
 		//	Get Keys When Pressed
@@ -240,7 +239,8 @@ var playState = {
 		} 
 		else 
 		{
-			game.state.start ('death');
+			enemies = [];
+			game.state.start ( 'death' );
 		}
 
 		//***TODO: Portal activation when all enemies dead
