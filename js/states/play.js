@@ -30,9 +30,9 @@ var barWidth;
 var playState = {
 	intKeyMask : 0,
 	intPrevMask : 12,
+	healthBar : null,
 	preload: function ( )
 	{
-
 		game.time.advancedTiming = true;
 
 		// Add and enable the plug-in.
@@ -56,7 +56,8 @@ var playState = {
 		mapGroup = game.add.group ( );
 		isoGroup2 = game.add.group ( );
 		enemyGroup = game.add.group ( );
-		portalGroup = game.add.group();
+		portalGroup = game.add.group ( );
+		grpHUD = game.add.group ( );
 
 		game.physics.isoArcade.gravity.setTo ( 0,0,-500 );
 
@@ -84,20 +85,23 @@ var playState = {
 		}
 
 		player = new Player ( new Vector2 ( 0, 0 ) );
-        
-         //Health bar structure
-        var hpBarStructure = game.add.bitmapData(200,40);
-        hpBarStructure.ctx.beginPath();
-        hpBarStructure.ctx.rect(0,0,180,30);
-        hpBarStructure.ctx.fillStyle = '#ffffff';
-        hpBarStructure.ctx.fill();
-        
-        //Health bar location in game world
-        healthBar = game.add.sprite(game.world.centerX - 900, game.world.centerY - 400,hpBarStructure);
-        healthBar.anchor.y = 0.5;
-        
+
+		//Health bar structure
+		var hpBarStructure = game.add.bitmapData ( 200,40 );
+		hpBarStructure.ctx.beginPath ( );
+		hpBarStructure.ctx.rect ( 0, 0, 180, 30 );
+		hpBarStructure.ctx.fillStyle = '#ffffff';
+		hpBarStructure.ctx.fill();
+
+		//Health bar location in game world
+		// healthBar = game.add.sprite ( game.world.centerX - 900, game.world.centerY - 400,hpBarStructure );
+		
+		this.healthBar = game.add.sprite ( 0, 0, hpBarStructure );
+		this.healthBar.fixedToCamera = true;
+		this.healthBar.anchor.y = 0.5;
+
 		game.camera.follow ( player.sprite );
-        
+
 
 		this.cursors = game.input.keyboard.createCursorKeys ( );
 
@@ -192,7 +196,6 @@ var playState = {
 		if ( game.input.mousePointer.leftButton.isDown )
 		{
 			player.handle_attack ( this.intPrevMask );
-			this.intKeyMask = -1;
 		}
 
 		for ( var i = 0; i < enemies.length; ++i )
@@ -212,31 +215,34 @@ var playState = {
 			update_interval = Math.floor ( Math.random() * 20) * 60; // 0 - 20sec @ 60fps
 			l = 0;
 		}
-    
-        //Change health bar colour and size depending on players hp
-        if(player.intHealth > 0)
-            {
-            this.barWidth = healthBar.width;
-            console.log(player.intHealth);
-            healthBar.width = player.intHealth;
-        
-            if(player.intHealth <= 150 && player.intHealth > 100)
-                {
-                    healthBar.tint = 0xffff00;
-                }
-            else if(player.intHealth <= 100 && player.intHealth > 50)
-                {
-                    healthBar.tint = 0xffa500;
-                }
-            else if(player.intHealth <= 50 && player.intHealth > 0)
-                {
-                    healthBar.tint = 0xff0009;
-                }else{
-                    healthBar.tint = 0x008000; 
-                }
-            }else{
-                game.state.start ('death');
-            }
+
+		//Change health bar colour and size depending on players hp
+		if ( player.intHealth > 0 )
+		{
+			this.barWidth = this.healthBar.width;
+			this.healthBar.width = player.intHealth;
+
+			if(player.intHealth <= 150 && player.intHealth > 100)
+			{
+				this.healthBar.tint = 0xffff00;
+			}
+			else if(player.intHealth <= 100 && player.intHealth > 50)
+			{
+				this.healthBar.tint = 0xffa500;
+			}
+			else if(player.intHealth <= 50 && player.intHealth > 0)
+			{
+				this.healthBar.tint = 0xff0009;
+			}
+			else
+			{
+				this.healthBar.tint = 0x008000; 
+			}
+		} 
+		else 
+		{
+			game.state.start ('death');
+		}
 
 		//***TODO: Portal activation when all enemies dead
 		var activated = false
@@ -258,10 +264,6 @@ var playState = {
 	},
 	handle_keys: function ( event )
 	{
-		//	Reset After Attack
-		if ( playState.intKeyMask === -1 )
-			playState.intKeyMask = 0;
-
 		switch ( event.keyCode )
 		{
 			case 37:
