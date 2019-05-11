@@ -96,9 +96,8 @@ var playState = {
 		//Health bar location in game world
 		// healthBar = game.add.sprite ( game.world.centerX - 900, game.world.centerY - 400,hpBarStructure );
 		
-		this.healthBar = game.add.sprite ( 0, 0, hpBarStructure );
+		this.healthBar = game.add.sprite ( 50, 50, hpBarStructure );
 		this.healthBar.fixedToCamera = true;
-		this.healthBar.anchor.y = 0.5;
 
 		game.camera.follow ( player.sprite );
 
