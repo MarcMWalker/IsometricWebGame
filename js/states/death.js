@@ -2,15 +2,15 @@ var deathState = {
 
 	create : function ( )
 	{
-        game.stage.backgroundColor = 0xFF0000;
-        game.world.setBounds ( 0, 0, 1920, 1080 );
-        //console.log("Death state working");
+		game.stage.backgroundColor = 0xFF0000;
+		game.world.setBounds ( 0, 0, 1920, 1080 );
+		//console.log("Death state working");
 		//	Button function initliased to create button within coordinates, if clicked start 'menu' state
 		this.createButton ( "Play Again?", game.world.centerX -160, game.world.centerY + 164, 300, 100, function ( ) { 
 			game.state.start ( 'select' );
 		});
-        
-        this.createButton ( "Leave", game.world.centerX+ 160, game.world.centerY + 164, 300, 100, function ( ) { 
+
+		this.createButton ( "Leave", game.world.centerX+ 160, game.world.centerY + 164, 300, 100, function ( ) { 
 			game.state.start ( 'menu' );
 		});
 
@@ -20,10 +20,10 @@ var deathState = {
 		titlescreen2.scale.setTo ( 0.7, 0.7 );
 		titlescreen2.alpha = 0;
 		game.add.tween ( titlescreen2 ).to ( { alpha : 1 }, 6000, "Linear", true );
-        
-        // Start game audio 'main' and loop
-		this.musicMain = game.add.audio ( 'game_over' );
-		this.musicMain.play ( );
+
+		// Start game audio 'main' and loop
+		this.musicDeath = game.add.audio ( 'game_over' );
+		this.musicDeath.play ( );
 
 	},
 	update : function ( )
