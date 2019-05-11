@@ -1,5 +1,5 @@
 /*
- * 	TODO: After enemy array length has reached zero, increase wave number and spawn another set of enemies.
+ * 	TODO: After enemy array length has reached zero, increase wave number and spawn another set of this.arrEnemies.
  * */
 
 //	TODO: Working on splitting up isogroups to provide more adequate game structure
@@ -12,8 +12,6 @@ var enemyGroup;
 var portalGroup;
 
 //Enemies array variable, portal and portal
-var enemies = [ ];
-
 var portal;
 var portalSpeed;
 
@@ -31,6 +29,7 @@ var playState = {
 	intKeyMask : 0,
 	intPrevMask : 12,
 	healthBar : null,
+	arrEnemies : [],
 	preload: function ( )
 	{
 		game.time.advancedTiming = true;
@@ -81,7 +80,7 @@ var playState = {
 			game.physics.isoArcade.enable ( enemy.sprite );
 			enemy.sprite.body.collideWorldBounds = true;
 
-			enemies.push ( enemy );
+			this.arrEnemies.push ( enemy );
 		}
 
 		player = new Player ( new Vector2 ( 0, 0 ) );
@@ -193,12 +192,12 @@ var playState = {
 
 		if ( game.input.mousePointer.leftButton.isDown )
 		{
-			player.handle_attack ( this.intPrevMask );
+			player.handle_attack ( this.intPrevMask, this.arrEnemies );
 		}
 
-		for ( var i = 0; i < enemies.length; ++i )
+		for ( var i = 0; i < this.arrEnemies.length; ++i )
 		{
-			enemies [ i ].update ( );
+			this.arrEnemies [ i ].update ( );
 		}
 
 		//	Game physics applied to enemyGroup and sorting of layers in isometric format
@@ -239,11 +238,11 @@ var playState = {
 		} 
 		else 
 		{
-			enemies = [];
+			this.arrEnemies = [];	//	Empty enemies array
 			game.state.start ( 'death' );
 		}
 
-		//***TODO: Portal activation when all enemies dead
+		//***TODO: Portal activation when all this.arrEnemies dead
 		var activated = false
 		if(activated = false){
 			portal.sprite.animations.play ( 'activate' );
@@ -252,7 +251,7 @@ var playState = {
 			portal.sprite.animations.play ( 'repeat' );
 		}
 
-		/*if (enemies.length <= 4)
+		/*if (this.arrEnemies.length <= 4)
 	    {
 		portal.sprite.animations.play ( 'activate' );
 	    }*/

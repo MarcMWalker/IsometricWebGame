@@ -107,7 +107,7 @@ class Player
 		}
 	}
 
-	handle_attack ( prevMask )
+	handle_attack ( prevMask, enemies )
 	{
 		if ( !this.bolAttacking )
 		{
