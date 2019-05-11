@@ -37,7 +37,7 @@ class Enemy
 		// TIMER
 		var timer;
 		timer = game.time.create( false );
-		timer.loop ( 5000, this.Attack, this );
+		timer.loop ( 3000, this.Attack, this );
 		timer.start ( );
 
 		this.intAnimationMask = 0;
@@ -138,7 +138,10 @@ class Enemy
 	//Handles enemy attacks
 	Attack ( )
 	{
-		if ( !this.bolDead )
+		var dist = player.position.sub ( this.position );
+		var distSqr = dist.dot ( dist );
+
+		if ( !this.bolDead && distSqr < this.intAttackRange * this.intAttackRange )
 		{
 			var attackDirection = new Vector2 ( 0, 0 );
 
@@ -187,15 +190,10 @@ class Enemy
 					break;							
 			}
 
-			var dist = player.position.sub ( this.position );
 			var dot = attackDirection.dot ( dist );
-			var distSqr = dist.dot ( dist );
 
-			console.log ( "DOT : " + dot + " Dist : " + distSqr );
-
-			if ( dot > 0 && distSqr < this.intAttackRange * this.intAttackRange )
+			if ( dot > 0 )
 			{
-				console.log ( "Attack" );
 				player.intHealth -= 10;
 				player.sprite.tint = 0x0000FF;
 			}
