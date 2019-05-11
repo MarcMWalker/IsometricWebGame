@@ -38,6 +38,8 @@ class Player
 		this.intAttackRange = 110;
 		this.intSpeed = 400;
 		this.bolAttacking = false;
+        
+        this.intHealth = 200;
 	}
 
 	//	Return position of player in x,y location
@@ -60,6 +62,7 @@ class Player
 					//	Straights
 				case 1:
 					player.sprite.body.velocity.x = -this.intSpeed;
+                    game.
 					player.sprite.animations.play ( 'W' );
 					break;
 				case 2:

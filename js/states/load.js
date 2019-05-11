@@ -6,6 +6,7 @@ var loadState = {
 		//Load spritesheet files
 		game.load.spritesheet('knight', 'assets/images/spritesheet-min.png', 360,308);
 		game.load.spritesheet('portal','assets/images/portal.png', 142 , 193);
+        
 
 		//Load image files
 		/*Taken from:
@@ -46,9 +47,11 @@ var loadState = {
 		game.load.image('mouse', 'assets/images/computer.png');
 		game.load.image('attackText2', 'assets/images/attack.png');
 		game.load.image('moveText', 'assets/images/movement.png');
+        game.load.image('gameOver', 'assets/images/gameOver.png');
 
 		//Load audio files, music taken from: https://www.bensound.com/royalty-free-music/track/birth-of-a-hero
-		game.load.audio('main', 'assets/sound/birthofahero.mp3')
+		game.load.audio('main', 'assets/sound/birthofahero.mp3');
+        game.load.audio('game_over', 'assets/sound/game_over.wav');
 	},
 
 	create: function(){
