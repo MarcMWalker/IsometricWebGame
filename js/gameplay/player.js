@@ -62,7 +62,6 @@ class Player
 					//	Straights
 				case 1:
 					player.sprite.body.velocity.x = -this.intSpeed;
-                    game.
 					player.sprite.animations.play ( 'W' );
 					break;
 				case 2:
