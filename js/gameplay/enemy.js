@@ -1,7 +1,5 @@
 class Enemy 
 {
-	//	TODO:	When player is close to enemy, enemy will attack the player
-
 	/*
 	 *	Construct enemy at position
 	 * */
