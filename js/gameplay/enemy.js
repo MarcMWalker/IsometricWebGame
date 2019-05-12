@@ -228,6 +228,7 @@ class Enemy
 		{
 			this.bolDead = true;
 			this.sprite.animations.play ( 'D' );
+			playState.intEnemyCounter--;
 		}
 
 		this.sprite.body.velocity.x = 0;
