@@ -29,6 +29,7 @@ var playState = {
 	intKeyMask : 0,
 	intPrevMask : 12,
 	intPlayerColour : 0x86bfda,
+	intEnemyCounter : 0,
 	healthBar : null,
 	arrEnemies : [],
 	preload: function ( )
@@ -81,6 +82,7 @@ var playState = {
 			game.physics.isoArcade.enable ( enemy.sprite );
 			enemy.sprite.body.collideWorldBounds = true;
 
+			this.intEnemyCounter++;
 			this.arrEnemies.push ( enemy );
 		}
 
@@ -94,8 +96,6 @@ var playState = {
 		hpBarStructure.ctx.fill();
 
 		//Health bar location in game world
-		// healthBar = game.add.sprite ( game.world.centerX - 900, game.world.centerY - 400,hpBarStructure );
-		
 		this.healthBar = game.add.sprite ( 50, 50, hpBarStructure );
 		this.healthBar.fixedToCamera = true;
 
@@ -172,16 +172,30 @@ var playState = {
 		this.changeWindDirection();
 
 		//Influenced by: https://phaser.io/examples/v2/particles/snow
-		back_emitter.start(false, 22000, 10);
-		mid_emitter.start(false, 10000, 30);
-		secondMid_emitter.start(false, 10000, 30);
-		front_emitter.start(false, 20000, 10);
+		back_emitter.start ( false, 22000, 10 );
+		mid_emitter.start ( false, 10000, 30 );
+		secondMid_emitter.start ( false, 10000, 30 );
+		front_emitter.start ( false, 20000, 10 );
 
-		portal = new Portal ( new Vector2 (1000,1000));
+		portal = new Portal ( new Vector2 ( 1000, 1000 ) );
 	},
 	update: function ( )
 	{
-		var speed = 400;
+		if ( this.intEnemyCounter == 0 )
+		{
+			if ( portal.sprite.visible == false )
+				portal.reset ( );		
+
+			portal.animate ( );
+
+			var dist = player.position.sub ( portal.position );
+			var distSqr = dist.dot ( dist );
+
+			if ( distSqr < 10000 )
+			{
+				console.log ( "Transition" );
+			}
+		}
 
 		player.sprite.body.velocity.x = 0;
 		player.sprite.body.velocity.y = 0;
@@ -214,7 +228,7 @@ var playState = {
 			l = 0;
 		}
 
-		//Change health bar colour and size depending on players hp
+		//	Change health bar colour and size depending on players hp
 		if ( player.intHealth > 0 )
 		{
 			this.barWidth = this.healthBar.width;
@@ -242,21 +256,6 @@ var playState = {
 			this.arrEnemies = [];	//	Empty enemies array
 			game.state.start ( 'death' );
 		}
-
-		//***TODO: Portal activation when all this.arrEnemies dead
-		var activated = false
-		if(activated = false){
-			portal.sprite.animations.play ( 'activate' );
-			activated = true;
-		}else{
-			portal.sprite.animations.play ( 'repeat' );
-		}
-
-		/*if (this.arrEnemies.length <= 4)
-	    {
-		portal.sprite.animations.play ( 'activate' );
-	    }*/
-		//portalSpeed++;
 	},
 	render: function ( ) 
 	{
