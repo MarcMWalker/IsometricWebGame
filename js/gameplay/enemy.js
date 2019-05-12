@@ -193,7 +193,6 @@ class Enemy
 			if ( dot > 0 )
 			{
 				player.intHealth -= 10;
-				player.sprite.tint = 0x0000FF;
 			}
 		}
 	}

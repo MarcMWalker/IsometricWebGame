@@ -174,11 +174,7 @@ class Player
 				{
 					//Lose health and change colour tint of attacked enemy
 					enemy.intHealth -= 10;
-					enemy.sprite.tint = 0x0000FF;
 				}
-				else
-					//Keep current red tint
-					enemy.sprite.tint = 0xFF0000;
 			} );
 		}
 	}
