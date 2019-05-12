@@ -36,8 +36,8 @@ class Player
 		this.intAttackRange = 110;
 		this.intSpeed = 400;
 		this.bolAttacking = false;
-        
-        this.intHealth = 200;
+
+		this.intHealth = 200;
 	}
 
 	//	Return position of player in x,y location
