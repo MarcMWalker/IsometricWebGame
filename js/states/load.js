@@ -1,12 +1,12 @@
 var loadState = {
 
 	//Load game assets before the game starts
-	preload: function ()
+	preload: function ( )
 	{
 		//Load spritesheet files
-		game.load.spritesheet('knight', 'assets/images/spritesheet-min.png', 360,308);
-		game.load.spritesheet('portal','assets/images/portal.png', 142 , 193);
-        
+		game.load.spritesheet ( 'knight', 'assets/images/spritesheet-min.png', 360, 308 );
+		game.load.spritesheet ( 'portal', 'assets/images/portal.png', 142, 193 );
+
 
 		//Load image files
 		/*Taken from:
@@ -23,40 +23,41 @@ var loadState = {
 		 *https://www.shareicon.net/keyboard-key-key-down-arrow-keyboard-interface-807469
 		 */
 
-		game.load.image('cube', 'assets/images/cube3.png');
-		game.load.image('raindrop', 'assets/images/rain.png');
-		game.load.image('leaf', 'assets/images/leaf.png');
-		game.load.image('leaf2', 'assets/images/leaf2.png');
-		game.load.image('leaf3', 'assets/images/leaf3.png');
-		game.load.image('titlescreen','assets/images/title_screen.png');
-		game.load.image('button','assets/images/button.png'); 
-		game.load.image('title', 'assets/images/title.png');
-		game.load.image('subTitle', 'assets/images/subTitle.png');
-		game.load.image('banner', 'assets/images/banner.png');
-		game.load.image('tuscanText', 'assets/images/tuscanTitle.png');
-		game.load.image('blackText', 'assets/images/blackTitle.png');
-		game.load.image('greenText', 'assets/images/greenTitle.png');
-		game.load.image('tuscanPic', 'assets/images/tuscan.png');
-		game.load.image('greenPic', 'assets/images/green.png');
-		game.load.image('blackPic', 'assets/images/black.png');
-		game.load.image('attackText', 'assets/images/attackText.png');
-		game.load.image('recoverText', 'assets/images/recoveryText.png');
-		game.load.image('shortsword', 'assets/images/shortsword.png');
-		game.load.image('hpPickup', 'assets/images/+.png');
-		game.load.image('keyboard', 'assets/images/keyboard.png');
-		game.load.image('mouse', 'assets/images/computer.png');
-		game.load.image('attackText2', 'assets/images/attack.png');
-		game.load.image('moveText', 'assets/images/movement.png');
-        game.load.image('gameOver', 'assets/images/gameOver.png');
+		game.load.image ( 'cube', 'assets/images/cube3.png');
+		game.load.image ( 'raindrop', 'assets/images/rain.png');
+		game.load.image ( 'leaf', 'assets/images/leaf.png');
+		game.load.image ( 'leaf2', 'assets/images/leaf2.png');
+		game.load.image ( 'leaf3', 'assets/images/leaf3.png');
+		game.load.image ( 'titlescreen','assets/images/title_screen.png');
+		game.load.image ( 'button','assets/images/button.png'); 
+		game.load.image ( 'title', 'assets/images/title.png');
+		game.load.image ( 'subTitle', 'assets/images/subTitle.png');
+		game.load.image ( 'banner', 'assets/images/banner.png');
+		game.load.image ( 'tuscanText', 'assets/images/tuscanTitle.png');
+		game.load.image ( 'blackText', 'assets/images/blackTitle.png');
+		game.load.image ( 'greenText', 'assets/images/greenTitle.png');
+		game.load.image ( 'tuscanPic', 'assets/images/tuscan.png');
+		game.load.image ( 'greenPic', 'assets/images/green.png');
+		game.load.image ( 'blackPic', 'assets/images/black.png');
+		game.load.image ( 'attackText', 'assets/images/attackText.png');
+		game.load.image ( 'recoverText', 'assets/images/recoveryText.png');
+		game.load.image ( 'shortsword', 'assets/images/shortsword.png');
+		game.load.image ( 'hpPickup', 'assets/images/+.png');
+		game.load.image ( 'keyboard', 'assets/images/keyboard.png');
+		game.load.image ( 'mouse', 'assets/images/computer.png');
+		game.load.image ( 'attackText2', 'assets/images/attack.png');
+		game.load.image ( 'moveText', 'assets/images/movement.png');
+		game.load.image ( 'gameOver', 'assets/images/gameOver.png');
 
-		//Load audio files, music taken from: https://www.bensound.com/royalty-free-music/track/birth-of-a-hero
+		//	Load audio files, music taken from: https://www.bensound.com/royalty-free-music/track/birth-of-a-hero
 		game.load.audio('main', 'assets/sound/birthofahero.mp3');
-        game.load.audio('game_over', 'assets/sound/game_over.wav');
+		game.load.audio('game_over', 'assets/sound/game_over.wav');
 	},
 
-	create: function(){
+	create : function ( )
+	{
 		//Start game state 'quote'
-		game.state.start('quote');
+		game.state.start ( 'quote' );
 	}
 
 };
