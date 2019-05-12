@@ -28,6 +28,7 @@ var barWidth;
 var playState = {
 	intKeyMask : 0,
 	intPrevMask : 12,
+	intPlayerColour : 0x86bfda,
 	healthBar : null,
 	arrEnemies : [],
 	preload: function ( )
@@ -83,7 +84,7 @@ var playState = {
 			this.arrEnemies.push ( enemy );
 		}
 
-		player = new Player ( new Vector2 ( 0, 0 ) );
+		player = new Player ( new Vector2 ( 0, 0 ), this.intPlayerColour );
 
 		//Health bar structure
 		var hpBarStructure = game.add.bitmapData ( 200,40 );

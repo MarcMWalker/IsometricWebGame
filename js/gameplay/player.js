@@ -1,14 +1,12 @@
 class Player 
 {
-	constructor ( position )
+	constructor ( position, colour )
 	{
 		//Create player
 		this.sprite = game.add.isoSprite (position.x, position.y, 0, "knight", 0 );
 
 		//Colour+anchor of Tuscan, Green and Black Knights
-		this.sprite.tint = 0x86bfda;
-		//this.sprite.tint = 0x33322A;
-		//this.sprite.tint = 0x128E12;
+		this.sprite.tint = colour;
 		this.sprite.anchor.set ( 0.5, 0.5 );
 
 		//Attack animations

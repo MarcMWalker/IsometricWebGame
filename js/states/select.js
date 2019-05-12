@@ -7,16 +7,19 @@ var selectState = {
 
 		//	Initilaising function to create buttons for character selection
 		this.createButton ( "Choose Tuscan Knight", game.world.centerX - 464,game.world.centerY + 164, 300, 100, function ( ) { 
+			playState.intPlayerColour = 0x86bfda;
 			music.stop ( );
 			game.state.start ( 'play' );
 		});
 
 		this.createButton ( "Choose Green Knight", game.world.centerX ,game.world.centerY + 164, 300, 100, function ( ) { 
+			playState.intPlayerColour = 0x11EE11;			
 			music.stop ( );
 			game.state.start ( 'play' );
 		});
 
 		this.createButton ( "Choose Black Knight", game.world.centerX + 464,game.world.centerY + 164, 300, 100, function ( ) { 
+			playState.intPlayerColour = 0x333333;			
 			music.stop ( );
 			game.state.start ( 'play' );
 		});
