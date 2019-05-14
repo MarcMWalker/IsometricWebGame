@@ -25,8 +25,6 @@ class Portal
 		if ( this.sprite.animations.currentAnim.isFinished )
 		{
 			this.bolActive = true;
-            this.portalSound = game.add.audio ( 'portalSound' );
-		    this.portalSound.play ( );
 		}
 
 		if ( this.bolActive )

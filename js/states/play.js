@@ -25,17 +25,12 @@ var update_interval = 240;
 var l = 0;
 var barWidth;
 
-
-//var slash;
-//var portalSound;
-
 var playState = {
 	intKeyMask : 0,
 	intPrevMask : 12,
 	intPlayerColour : 0x86bfda,
 	intEnemyCounter : 0,
 	healthBar : null,
-    musicbattle : null,
 	arrEnemies : [],
 	preload: function ( )
 	{
@@ -58,12 +53,6 @@ var playState = {
 	},
 	create: function ( )
 	{
-        // Start playing music once game starts
-        this.musicbattle = game.add.audio ( 'battle' );
-		this.musicbattle.play ( );
-		this.musicbattle.loopFull ( 0.5 );
-        
-        
 		// Create a isoGroups for game, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
 		mapGroup = game.add.group ( );
 		isoGroup2 = game.add.group ( );
@@ -198,7 +187,6 @@ var playState = {
 				portal.reset ( );		
 
 			portal.animate ( );
-            
 
 			var dist = player.position.sub ( portal.position );
 			var distSqr = dist.dot ( dist );
@@ -267,8 +255,6 @@ var playState = {
 		{
 			this.arrEnemies = [];	//	Empty enemies array
 			game.state.start ( 'death' );
-            
-            
 		}
 	},
 	render: function ( ) 
