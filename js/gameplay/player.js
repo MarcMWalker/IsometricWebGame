@@ -110,6 +110,8 @@ class Player
 		if ( !this.bolAttacking )
 		{
 			this.bolAttacking = true;
+            this.swordSwing = game.add.audio ( 'swordSwing' );
+		    this.swordSwing.play ( );
 
 			//	Attack direction
 			var attackDirection = new Vector2 ( 0, 0 );
@@ -172,6 +174,8 @@ class Player
 				{
 					//Lose health and change colour tint of attacked enemy
 					enemy.intHealth -= 10;
+                    //this.hitEnemy = game.add.audio ( 'hitEnemy' );
+		            //this.hitEnemy.play ( );
 				}
 			} );
 		}

@@ -193,6 +193,9 @@ class Enemy
 			if ( dot > 0 )
 			{
 				player.intHealth -= 10;
+                this.enemyHit = game.add.audio ( 'enemyHit' );
+		        this.enemyHit.play ( );
+                
 			}
 		}
 	}
@@ -228,7 +231,9 @@ class Enemy
 		{
 			this.bolDead = true;
 			this.sprite.animations.play ( 'D' );
-			playState.intEnemyCounter--;
+            this.slashSound = game.add.audio ( 'slashSound' );
+		    this.slashSound.play ( );
+            playState.intEnemyCounter--;
 		}
 
 		this.sprite.body.velocity.x = 0;
