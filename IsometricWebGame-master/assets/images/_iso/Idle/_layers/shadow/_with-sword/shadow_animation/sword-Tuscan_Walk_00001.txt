@@ -1,8 +1,0 @@
-shadow_swd-Tuscan_Idle_00000 = 0 0 358 306
-shadow_swd-Tuscan_Idle_10000 = 359 0 358 306
-shadow_swd-Tuscan_Idle_20000 = 0 307 358 306
-shadow_swd-Tuscan_Idle_30000 = 0 614 358 306
-shadow_swd-Tuscan_Idle_40000 = 359 307 358 306
-shadow_swd-Tuscan_Idle_50000 = 359 614 358 306
-shadow_swd-Tuscan_Idle_60000 = 718 0 358 306
-shadow_swd-Tuscan_Idle_70000 = 718 307 358 306
