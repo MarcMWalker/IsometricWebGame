@@ -35,7 +35,7 @@ class Enemy
 		// TIMER
 		var timer;
 		timer = game.time.create( false );
-		timer.loop ( 3000, this.Attack, this );
+		timer.loop ( 3000, this.attack, this );
 		timer.start ( );
 
 		this.intAnimationMask = 0;
@@ -133,8 +133,8 @@ class Enemy
 		}
 	}
 
-	//Handles enemy attacks
-	Attack ( )
+	//	Handles enemy attacks
+	attack ( )
 	{
 		var dist = playState.player.position.sub ( this.position );
 		var distSqr = dist.dot ( dist );
@@ -200,7 +200,7 @@ class Enemy
 	}
 
 	//	Moves the enemies towards the player
-	SimpleAI ( )
+	move ( )
 	{
 		//	Get Player position
 		var distance = playState.player.position.sub ( this.position );
@@ -238,7 +238,7 @@ class Enemy
 		this.sprite.body.velocity.x = 0;
 		this.sprite.body.velocity.y = 0;
 
-		this.SimpleAI ( );
+		this.move ( );
 		this.animate ( );
 
 		if ( this.sprite.animations.currentAnim != null )
