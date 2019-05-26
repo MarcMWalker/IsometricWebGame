@@ -3,7 +3,7 @@ class Player
 	constructor ( position, colour )
 	{
 		//Create player
-		this.sprite = game.add.isoSprite (position.x, position.y, 0, "knight", 0 );
+		this.sprite = game.add.isoSprite ( position.x, position.y, 0, "knight", 0 );
 
 		//Colour+anchor of Tuscan, Green and Black Knights
 		this.sprite.tint = colour;
@@ -40,7 +40,7 @@ class Player
 		this.intHealth = 200;
 	}
 
-	//	Return position of player in x,y location
+	//	Return position of this.in x,y location
 	get position ( )
 	{
 		return new Vector2 ( this.sprite.isoX, this.sprite.isoY );
@@ -54,47 +54,47 @@ class Player
 			{
 					//	Idle
 				case 0:
-					player.sprite.animations.stop ( );
+					this.sprite.animations.stop ( );
 					break;
 
 					//	Straights
 				case 1:
-					player.sprite.body.velocity.x = -this.intSpeed;
-					player.sprite.animations.play ( 'W' );
+					this.sprite.body.velocity.x = -this.intSpeed;
+					this.sprite.animations.play ( 'W' );
 					break;
 				case 2:
-					player.sprite.body.velocity.y = -this.intSpeed;
-					player.sprite.animations.play ( 'N' );
+					this.sprite.body.velocity.y = -this.intSpeed;
+					this.sprite.animations.play ( 'N' );
 					break;
 				case 4:
-					player.sprite.body.velocity.x = this.intSpeed;
-					player.sprite.animations.play ( 'E' );
+					this.sprite.body.velocity.x = this.intSpeed;
+					this.sprite.animations.play ( 'E' );
 					break;
 				case 8:
-					player.sprite.body.velocity.y = this.intSpeed;
-					player.sprite.animations.play ( 'S' );
+					this.sprite.body.velocity.y = this.intSpeed;
+					this.sprite.animations.play ( 'S' );
 					break;
 
 					//	Diagonals
 				case 6:
-					player.sprite.body.velocity.x = this.intSpeed;
-					player.sprite.body.velocity.y = -this.intSpeed;
-					player.sprite.animations.play ( 'NE' );
+					this.sprite.body.velocity.x = this.intSpeed;
+					this.sprite.body.velocity.y = -this.intSpeed;
+					this.sprite.animations.play ( 'NE' );
 					break;
 				case 3:
-					player.sprite.body.velocity.x = -this.intSpeed;
-					player.sprite.body.velocity.y = -this.intSpeed;
-					player.sprite.animations.play ( 'NW' );
+					this.sprite.body.velocity.x = -this.intSpeed;
+					this.sprite.body.velocity.y = -this.intSpeed;
+					this.sprite.animations.play ( 'NW' );
 					break;
 				case 12:
-					player.sprite.body.velocity.x = this.intSpeed;
-					player.sprite.body.velocity.y = this.intSpeed;
-					player.sprite.animations.play ( 'SE' );
+					this.sprite.body.velocity.x = this.intSpeed;
+					this.sprite.body.velocity.y = this.intSpeed;
+					this.sprite.animations.play ( 'SE' );
 					break;
 				case 9:
-					player.sprite.body.velocity.x = -this.intSpeed;
-					player.sprite.body.velocity.y = this.intSpeed;
-					player.sprite.animations.play ( 'SW' );
+					this.sprite.body.velocity.x = -this.intSpeed;
+					this.sprite.body.velocity.y = this.intSpeed;
+					this.sprite.animations.play ( 'SW' );
 					break;				
 			}
 		}
@@ -110,8 +110,8 @@ class Player
 		if ( !this.bolAttacking )
 		{
 			this.bolAttacking = true;
-            this.swordSwing = game.add.audio ( 'swordSwing' );
-		    this.swordSwing.play ( );
+			this.swordSwing = game.add.audio ( 'swordSwing' );
+			this.swordSwing.play ( );
 
 			//	Attack direction
 			var attackDirection = new Vector2 ( 0, 0 );
@@ -165,12 +165,12 @@ class Player
 
 			//	For each enemy AI record how far away they are from player
 			enemies.forEach ( function ( enemy ) { 
-				var dist = enemy.position.sub ( player.position );
+				var dist = enemy.position.sub ( playState.player.position );
 				var dot = attackDirection.dot ( dist );
 				var distSqr = dist.dot ( dist );
 
-				//	If dot and distSqr parameters met, player is within range of attack and so enemy loses health
-				if ( dot > 0 && distSqr < player.intAttackRange * player.intAttackRange )
+				//	If dot and distSqr parameters met, this.is within range of attack and so enemy loses health
+				if ( dot > 0 && distSqr < playState.player.intAttackRange * playState.player.intAttackRange )
 				{
 					//Lose health and change colour tint of attacked enemy
 					enemy.intHealth -= 10;

@@ -136,7 +136,7 @@ class Enemy
 	//Handles enemy attacks
 	Attack ( )
 	{
-		var dist = player.position.sub ( this.position );
+		var dist = playState.player.position.sub ( this.position );
 		var distSqr = dist.dot ( dist );
 
 		if ( !this.bolDead && distSqr < this.intAttackRange * this.intAttackRange )
@@ -192,18 +192,18 @@ class Enemy
 
 			if ( dot > 0 )
 			{
-				player.intHealth -= 10;
+				playState.player.intHealth -= 10;
 				this.enemyHit = game.add.audio ( 'enemyHit' );
 				this.enemyHit.play ( );
 			}
 		}
 	}
 
-	//Moves the enemies towards the player
+	//	Moves the enemies towards the player
 	SimpleAI ( )
 	{
 		//	Get Player position
-		var distance = player.position.sub ( this.position );
+		var distance = playState.player.position.sub ( this.position );
 
 		//	Get Distance Squared
 		var distSqr = distance.dot ( distance );

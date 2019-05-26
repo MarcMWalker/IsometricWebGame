@@ -2,8 +2,8 @@ class Portal
 {
 	constructor ( position )
 	{
-		//Portal sprite added to game as isoSprite, given portal animation and added to isoGroup = portalGroup
-		this.sprite = game.add.isoSprite ( position.x, position.y, 0, 'portal', portalGroup );
+		//Portal sprite added to game as isoSprite, given portal animation
+		this.sprite = game.add.isoSprite ( position.x, position.y, 0, 'portal' );
 		this.sprite.visible = false;
 		this.sprite.anchor.set ( 0.5, 0.5 );
 
