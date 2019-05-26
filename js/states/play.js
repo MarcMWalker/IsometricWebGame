@@ -1,12 +1,6 @@
-//Variables for leaf animation
+//	Variables for leaf animation
 var max = 0;
-var front_emitter;
-var mid_emitter;
-var secondMid_emitter;
-var back_emitter;
-var update_interval = 240;
 var l = 0;
-var barWidth;
 
 var playState = {
 	intKeyMask : 0,
@@ -14,6 +8,11 @@ var playState = {
 	intPlayerColour : 0x86bfda,
 	intEnemyCounter : 0,
 	intSpawnEnemies : 1,
+	intUpdateInterval : 240,
+	emitFront : null,
+	emitMid : null,
+	emitTop : null,
+	emitBack : null,
 	grpMap : null,
 	grpEnemies : null,
 	player : null,
@@ -114,61 +113,61 @@ var playState = {
 
 
 		//Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
-		back_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
-		back_emitter.width = game.world.width;
-		back_emitter.makeParticles('leaf');
-		back_emitter.maxParticleScale = 0.06;
-		back_emitter.minParticleScale = 0.02;
-		back_emitter.setYSpeed(20, 100);
-		back_emitter.gravity = 1;
-		back_emitter.width = game.world.width * 2.5;
-		back_emitter.minRotation = 0;
-		back_emitter.maxRotation = 40;
+		this.emitBack = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+		this.emitBack.width = game.world.width;
+		this.emitBack.makeParticles('leaf');
+		this.emitBack.maxParticleScale = 0.06;
+		this.emitBack.minParticleScale = 0.02;
+		this.emitBack.setYSpeed(20, 100);
+		this.emitBack.gravity = 1;
+		this.emitBack.width = game.world.width * 2.5;
+		this.emitBack.minRotation = 0;
+		this.emitBack.maxRotation = 40;
 
 		//Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
-		mid_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
-		mid_emitter.width = game.world.width;
-		mid_emitter.makeParticles('leaf2');
-		mid_emitter.maxParticleScale = 0.06;
-		mid_emitter.minParticleScale = 0.008;
-		mid_emitter.setYSpeed(50, 150);
-		mid_emitter.gravity = 1;
-		mid_emitter.width = game.world.width * 2.5;
-		mid_emitter.minRotation = 0;
-		mid_emitter.maxRotation = 40;
+		this.emitMid = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+		this.emitMid.width = game.world.width;
+		this.emitMid.makeParticles('leaf2');
+		this.emitMid.maxParticleScale = 0.06;
+		this.emitMid.minParticleScale = 0.008;
+		this.emitMid.setYSpeed(50, 150);
+		this.emitMid.gravity = 1;
+		this.emitMid.width = game.world.width * 2.5;
+		this.emitMid.minRotation = 0;
+		this.emitMid.maxRotation = 40;
 
 		//Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
-		secondMid_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
-		secondMid_emitter.width = game.world.width;
-		secondMid_emitter.makeParticles('leaf2');
-		secondMid_emitter.maxParticleScale = 0.06;
-		secondMid_emitter.minParticleScale = 0.008;
-		secondMid_emitter.setYSpeed(50, 150);
-		secondMid_emitter.gravity = 1;
-		secondMid_emitter.width = game.world.width * 2.5;
-		secondMid_emitter.minRotation = 0;
-		secondMid_emitter.maxRotation = 40;
+		this.emitTop = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+		this.emitTop.width = game.world.width;
+		this.emitTop.makeParticles('leaf2');
+		this.emitTop.maxParticleScale = 0.06;
+		this.emitTop.minParticleScale = 0.008;
+		this.emitTop.setYSpeed(50, 150);
+		this.emitTop.gravity = 1;
+		this.emitTop.width = game.world.width * 2.5;
+		this.emitTop.minRotation = 0;
+		this.emitTop.maxRotation = 40;
 
 		//Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
-		front_emitter = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
-		front_emitter.width = game.world.width;
-		front_emitter.makeParticles('leaf3');
-		front_emitter.maxParticleScale = 0.09;
-		front_emitter.minParticleScale = 0.06;
-		front_emitter.setYSpeed(50, 150);
-		front_emitter.gravity = 2;
-		front_emitter.width = game.world.width * 2.5;
-		front_emitter.minRotation = 0;
-		front_emitter.maxRotation = 40;
+		this.emitFront = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+		this.emitFront.width = game.world.width;
+		this.emitFront.makeParticles('leaf3');
+		this.emitFront.maxParticleScale = 0.09;
+		this.emitFront.minParticleScale = 0.06;
+		this.emitFront.setYSpeed(50, 150);
+		this.emitFront.gravity = 2;
+		this.emitFront.width = game.world.width * 2.5;
+		this.emitFront.minRotation = 0;
+		this.emitFront.maxRotation = 40;
 
 		//Function influenced by: https://phaser.io/examples/v2/particles/snow
 		this.changeWindDirection();
 
 		//Influenced by: https://phaser.io/examples/v2/particles/snow
-		back_emitter.start ( false, 22000, 10 );
-		mid_emitter.start ( false, 10000, 30 );
-		secondMid_emitter.start ( false, 10000, 30 );
-		front_emitter.start ( false, 20000, 10 );
+		this.emitBack.start ( false, 22000, 10 );
+		this.emitMid.start ( false, 10000, 30 );
+		this.emitTop.start ( false, 10000, 30 );
+		this.emitFront.start ( false, 20000, 10 );
 
 		this.portal = new Portal ( new Vector2 ( 1000, 1000 ) );
 	},
@@ -215,28 +214,27 @@ var playState = {
 
 		l++;
 
-		if ( l === update_interval )
+		if ( l === this.intUpdateInterval )
 		{
 			this.changeWindDirection ( );
-			update_interval = Math.floor ( Math.random() * 20) * 60; // 0 - 20sec @ 60fps
+			this.intUpdateInterval = Math.floor ( Math.random() * 20) * 60; // 0 - 20sec @ 60fps
 			l = 0;
 		}
 
 		//	Change health bar colour and size depending on players hp
 		if ( this.player.intHealth > 0 )
 		{
-			this.barWidth = this.healthBar.width;
 			this.healthBar.width = this.player.intHealth;
 
-			if(this.player.intHealth <= 150 && this.player.intHealth > 100)
+			if ( this.player.intHealth <= 150 && this.player.intHealth > 100 )
 			{
 				this.healthBar.tint = 0xffff00;
 			}
-			else if(this.player.intHealth <= 100 && this.player.intHealth > 50)
+			else if ( this.player.intHealth <= 100 && this.player.intHealth > 50 )
 			{
 				this.healthBar.tint = 0xffa500;
 			}
-			else if(this.player.intHealth <= 50 && this.player.intHealth > 0)
+			else if ( this.player.intHealth <= 50 && this.player.intHealth > 0 )
 			{
 				this.healthBar.tint = 0xff0009;
 			}
@@ -294,25 +292,25 @@ var playState = {
 	//Function for the wind direction of leaves, influenced by: https://phaser.io/examples/v2/particles/snow
 	changeWindDirection : function () {
 
-		var multi = Math.floor((max + 200) / 4),
+		var multi = Math.floor ( ( max + 200 ) / 4 ),
 			frag = (Math.floor(Math.random() * 100) - multi);
 		max = max + frag;
 
 		if (max > 200) max = 150;
 		if (max < -200) max = -150;
 
-		this.setXSpeed(back_emitter, max);
-		this.setXSpeed(mid_emitter, max);
-		this.setXSpeed(secondMid_emitter, max);
-		this.setXSpeed(front_emitter, max);
+		this.setXSpeed(this.emitBack, max);
+		this.setXSpeed(this.emitMid, max);
+		this.setXSpeed(this.emitTop, max);
+		this.setXSpeed(this.emitFront, max);
 
 	},
 
 	//Influenced by: https://phaser.io/examples/v2/particles/snow
 	setXSpeed : function (emitter, max) {
 
-		emitter.setXSpeed(max - 2, max);
-		emitter.forEachAlive(this.setParticleXSpeed, this, max);
+		emitter.setXSpeed ( max - 2, max );
+		emitter.forEachAlive ( this.setParticleXSpeed, this, max );
 
 	},
 
