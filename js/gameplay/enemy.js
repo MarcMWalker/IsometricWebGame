@@ -5,7 +5,7 @@ class Enemy
 	 * */
 	constructor ( position )
 	{
-		this.sprite = game.add.isoSprite ( position.x, position.y, 0, "knight", 0, enemyGroup );
+		this.sprite = game.add.isoSprite ( position.x, position.y, 0, "knight", 0, playState.grpEnemies );
 
 		this.sprite.tint = 0xFF0000;
 
@@ -193,8 +193,8 @@ class Enemy
 			if ( dot > 0 )
 			{
 				player.intHealth -= 10;
-                this.enemyHit = game.add.audio ( 'enemyHit' );
-		        this.enemyHit.play ( );
+				this.enemyHit = game.add.audio ( 'enemyHit' );
+				this.enemyHit.play ( );
 			}
 		}
 	}
@@ -230,8 +230,8 @@ class Enemy
 		{
 			this.bolDead = true;
 			this.sprite.animations.play ( 'D' );
-            this.slashSound = game.add.audio ( 'slashSound' );
-		    this.slashSound.play ( );
+			this.slashSound = game.add.audio ( 'slashSound' );
+			this.slashSound.play ( );
 			playState.intEnemyCounter--;
 		}
 
@@ -241,9 +241,12 @@ class Enemy
 		this.SimpleAI ( );
 		this.animate ( );
 
-		if ( this.sprite.animations.currentAnim.isFinished && this.bolAttacking )
+		if ( this.sprite.animations.currentAnim != null )
 		{
-			this.bolAttacking = false;
+			if ( this.sprite.animations.currentAnim.isFinished && this.bolAttacking )
+			{
+				this.bolAttacking = false;
+			}
 		}
 	}
 }
