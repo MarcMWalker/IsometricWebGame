@@ -1,20 +1,3 @@
-/*
- * 	TODO: After enemy array length has reached zero, increase wave number and spawn another set of this.arrEnemies.
- * */
-
-//	TODO: Working on splitting up isogroups to provide more adequate game structure
-
-//Variables for isoGroups
-var mapGroup;
-var wallGroup, wall;
-var isoGroup2, player;
-var enemyGroup;
-var portalGroup;
-
-//Enemies array variable, portal and portal
-var portal;
-var portalSpeed;
-
 //Variables for leaf animation
 var max = 0;
 var front_emitter;
@@ -30,8 +13,14 @@ var playState = {
 	intPrevMask : 12,
 	intPlayerColour : 0x86bfda,
 	intEnemyCounter : 0,
+	intSpawnEnemies : 1,
+	grpMap : null,
+	grpEnemies : null,
+	player : null,
+	portal : null,
 	healthBar : null,
 	arrEnemies : [],
+
 	preload: function ( )
 	{
 		game.time.advancedTiming = true;
@@ -53,17 +42,15 @@ var playState = {
 	},
 	create: function ( )
 	{
-        
-        // Start playing music once game starts
-        this.musicbattle = game.add.audio ( 'battle' );
+
+		// Start playing music once game starts
+		this.musicbattle = game.add.audio ( 'battle' );
 		this.musicbattle.play ( );
 		this.musicbattle.loopFull ( 0.5 );
-        
+
 		// Create a isoGroups for game, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
-		mapGroup = game.add.group ( );
-		isoGroup2 = game.add.group ( );
-		enemyGroup = game.add.group ( );
-		portalGroup = game.add.group ( );
+		this.grpMap = game.add.group ( );
+		this.grpEnemies = game.add.group ( );
 		grpHUD = game.add.group ( );
 
 		game.physics.isoArcade.gravity.setTo ( 0,0,-500 );
@@ -75,13 +62,13 @@ var playState = {
 		{
 			for ( var y = 0; y < 4096; y += 100 )
 			{
-				map = game.add.isoSprite ( x, y, 0, 'cube', 0, mapGroup );
+				map = game.add.isoSprite ( x, y, 0, 'cube', 0, this.grpMap );
 				map.anchor.set ( 0.5, 0.0 );
 			}
 		}
 
 		//	Generate First Wave Of Enemies
-		for ( var i = 0; i < 1; ++i )
+		for ( var i = 0; i < this.intSpawnEnemies; ++i )
 		{
 			var enemy = new Enemy ( new Vector2 ( ( 64 * i + 64 ) << 1, ( 64 * i + 64 ) << 1 ) );
 			enemy.sprite.anchor.set ( 0.5 );
@@ -92,7 +79,7 @@ var playState = {
 			this.arrEnemies.push ( enemy );
 		}
 
-		player = new Player ( new Vector2 ( 0, 0 ), this.intPlayerColour );
+		this.player = new Player ( new Vector2 ( 0, 0 ), this.intPlayerColour );
 
 		//Health bar structure
 		var hpBarStructure = game.add.bitmapData ( 200,40 );
@@ -105,7 +92,7 @@ var playState = {
 		this.healthBar = game.add.sprite ( 50, 50, hpBarStructure );
 		this.healthBar.fixedToCamera = true;
 
-		game.camera.follow ( player.sprite );
+		game.camera.follow ( this.player.sprite );
 
 		this.cursors = game.input.keyboard.createCursorKeys ( );
 
@@ -183,38 +170,38 @@ var playState = {
 		secondMid_emitter.start ( false, 10000, 30 );
 		front_emitter.start ( false, 20000, 10 );
 
-		portal = new Portal ( new Vector2 ( 1000, 1000 ) );
+		this.portal = new Portal ( new Vector2 ( 1000, 1000 ) );
 	},
 	update: function ( )
 	{
 		if ( this.intEnemyCounter == 0 )
 		{
-			if ( portal.sprite.visible == false )
-				portal.reset ( );		
+			if ( this.portal.sprite.visible == false )
+				this.portal.reset ( );		
 
-			portal.animate ( );
+			this.portal.animate ( );
 
-			var dist = player.position.sub ( portal.position );
+			var dist = this.player.position.sub ( this.portal.position );
 			var distSqr = dist.dot ( dist );
 
 			if ( distSqr < 10000 )
 			{
-				console.log ( "Transition" );
-                game.state.start ( 'play1' );
+				this.intSpawnEnemies++;
+				game.state.start ( 'play' );
 			}
 		}
 
-		player.sprite.body.velocity.x = 0;
-		player.sprite.body.velocity.y = 0;
+		this.player.sprite.body.velocity.x = 0;
+		this.player.sprite.body.velocity.y = 0;
 
-		player.animate ( this.intKeyMask );
+		this.player.animate ( this.intKeyMask );
 
 		if ( this.intKeyMask > 0 )
 			this.intPrevMask = this.intKeyMask;
 
 		if ( game.input.mousePointer.leftButton.isDown )
 		{
-			player.handle_attack ( this.intPrevMask, this.arrEnemies );
+			this.player.handle_attack ( this.intPrevMask, this.arrEnemies );
 		}
 
 		for ( var i = 0; i < this.arrEnemies.length; ++i )
@@ -222,9 +209,9 @@ var playState = {
 			this.arrEnemies [ i ].update ( );
 		}
 
-		//	Game physics applied to enemyGroup and sorting of layers in isometric format
-		game.physics.isoArcade.collide ( enemyGroup );
-		game.iso.topologicalSort ( enemyGroup );
+		//	Game physics applied to Enemies and sorting of layers in isometric format
+		game.physics.isoArcade.collide ( this.grpEnemies );
+		game.iso.topologicalSort ( this.grpEnemies );
 
 		l++;
 
@@ -236,20 +223,20 @@ var playState = {
 		}
 
 		//	Change health bar colour and size depending on players hp
-		if ( player.intHealth > 0 )
+		if ( this.player.intHealth > 0 )
 		{
 			this.barWidth = this.healthBar.width;
-			this.healthBar.width = player.intHealth;
+			this.healthBar.width = this.player.intHealth;
 
-			if(player.intHealth <= 150 && player.intHealth > 100)
+			if(this.player.intHealth <= 150 && this.player.intHealth > 100)
 			{
 				this.healthBar.tint = 0xffff00;
 			}
-			else if(player.intHealth <= 100 && player.intHealth > 50)
+			else if(this.player.intHealth <= 100 && this.player.intHealth > 50)
 			{
 				this.healthBar.tint = 0xffa500;
 			}
-			else if(player.intHealth <= 50 && player.intHealth > 0)
+			else if(this.player.intHealth <= 50 && this.player.intHealth > 0)
 			{
 				this.healthBar.tint = 0xff0009;
 			}
