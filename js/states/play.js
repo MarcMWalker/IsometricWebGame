@@ -20,11 +20,11 @@ var playState = {
 	healthBar : null,
 	arrEnemies : [],
 
-	preload: function ( )
+	preload : function ( )
 	{
 		game.time.advancedTiming = true;
 
-		// Add and enable the plug-in.
+		// 	Add and enable the plug-in.
 		game.plugins.add ( new Phaser.Plugin.Isometric ( game ) );
 
 		//	Setup world boundary
@@ -39,22 +39,22 @@ var playState = {
 		// this point would be at screen coordinates 0, 0 (top left) which is usually undesirable.
 		game.iso.anchor.setTo ( 0.5, 0.5 );
 	},
-	create: function ( )
+	create : function ( )
 	{
 
-		// Start playing music once game starts
+		//	Start playing music once game starts
 		this.musicbattle = game.add.audio ( 'battle' );
 		this.musicbattle.play ( );
 		this.musicbattle.loopFull ( 0.5 );
 
-		// Create a isoGroups for game, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
+		//	Create a isoGroups for game, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
 		this.grpMap = game.add.group ( );
 		this.grpEnemies = game.add.group ( );
 		grpHUD = game.add.group ( );
 
 		game.physics.isoArcade.gravity.setTo ( 0,0,-500 );
 
-		//Cubes added to map, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
+		//	Cubes added to map, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
 		var map;
 
 		for ( var x = 0; x < 4096; x += 100 )
@@ -80,14 +80,14 @@ var playState = {
 
 		this.player = new Player ( new Vector2 ( 0, 0 ), this.intPlayerColour );
 
-		//Health bar structure
+		//	Health bar structure
 		var hpBarStructure = game.add.bitmapData ( 200,40 );
 		hpBarStructure.ctx.beginPath ( );
 		hpBarStructure.ctx.rect ( 0, 0, 180, 30 );
 		hpBarStructure.ctx.fillStyle = '#ffffff';
-		hpBarStructure.ctx.fill();
+		hpBarStructure.ctx.fill ( );
 
-		//Health bar location in game world
+		//	Health bar location in game world
 		this.healthBar = game.add.sprite ( 50, 50, hpBarStructure );
 		this.healthBar.fixedToCamera = true;
 
@@ -98,72 +98,72 @@ var playState = {
 		//	Get Keys When Pressed
 		this.game.input.keyboard.addCallbacks ( this.callbackContext, this.handle_keys, this.reset_keys );
 
-		//Rain emitter created and set around entire screen, influenced by: https://phaser.io/examples/v2/particles/rain
-		var emitter = game.add.emitter(game.world.centerX, 1920, 1080);
+		//	Rain emitter created and set around entire screen, influenced by: https://phaser.io/examples/v2/particles/rain
+		var emitter = game.add.emitter ( game.world.centerX, 1920, 1080 );
 
 		emitter.width = game.world.width;
-		emitter.makeParticles('raindrop');
+		emitter.makeParticles ( 'raindrop' );
 		emitter.minParticleScale = 0.1;
 		emitter.maxParticleScale = 0.6;
-		emitter.setYSpeed(600, 600);
-		emitter.setXSpeed(-5, 5);
+		emitter.setYSpeed ( 600, 600 );
+		emitter.setXSpeed ( -5, 5 );
 		emitter.minRotation = 0;
 		emitter.maxRotation = 0;
-		emitter.start(false, 16600, 0, 0);
+		emitter.start ( false, 16600, 0, 0 );
 
 
-		//Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
-		this.emitBack = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+		//	Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
+		this.emitBack = game.add.emitter ( this.game.world.centerX, this.game.world.centerY - 550 );
 		this.emitBack.width = game.world.width;
-		this.emitBack.makeParticles('leaf');
+		this.emitBack.makeParticles ( 'leaf' );
 		this.emitBack.maxParticleScale = 0.06;
 		this.emitBack.minParticleScale = 0.02;
-		this.emitBack.setYSpeed(20, 100);
+		this.emitBack.setYSpeed ( 20, 100 );
 		this.emitBack.gravity = 1;
 		this.emitBack.width = game.world.width * 2.5;
 		this.emitBack.minRotation = 0;
 		this.emitBack.maxRotation = 40;
 
-		//Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
-		this.emitMid = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+		//	Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
+		this.emitMid = game.add.emitter ( this.game.world.centerX, this.game.world.centerY - 550 );
 		this.emitMid.width = game.world.width;
-		this.emitMid.makeParticles('leaf2');
+		this.emitMid.makeParticles ( 'leaf2' );
 		this.emitMid.maxParticleScale = 0.06;
 		this.emitMid.minParticleScale = 0.008;
-		this.emitMid.setYSpeed(50, 150);
+		this.emitMid.setYSpeed ( 50, 150 );
 		this.emitMid.gravity = 1;
 		this.emitMid.width = game.world.width * 2.5;
 		this.emitMid.minRotation = 0;
 		this.emitMid.maxRotation = 40;
 
-		//Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
-		this.emitTop = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+		//	Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
+		this.emitTop = game.add.emitter ( this.game.world.centerX, this.game.world.centerY - 550 );
 		this.emitTop.width = game.world.width;
-		this.emitTop.makeParticles('leaf2');
+		this.emitTop.makeParticles ( 'leaf2' );
 		this.emitTop.maxParticleScale = 0.06;
 		this.emitTop.minParticleScale = 0.008;
-		this.emitTop.setYSpeed(50, 150);
+		this.emitTop.setYSpeed ( 50, 150 );
 		this.emitTop.gravity = 1;
 		this.emitTop.width = game.world.width * 2.5;
 		this.emitTop.minRotation = 0;
 		this.emitTop.maxRotation = 40;
 
-		//Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
-		this.emitFront = game.add.emitter(this.game.world.centerX, this.game.world.centerY - 550);
+		//	Leaf particle effect/animation from: https://phaser.io/examples/v2/particles/snow
+		this.emitFront = game.add.emitter ( this.game.world.centerX, this.game.world.centerY - 550 );
 		this.emitFront.width = game.world.width;
-		this.emitFront.makeParticles('leaf3');
+		this.emitFront.makeParticles ( 'leaf3' );
 		this.emitFront.maxParticleScale = 0.09;
 		this.emitFront.minParticleScale = 0.06;
-		this.emitFront.setYSpeed(50, 150);
+		this.emitFront.setYSpeed ( 50, 150 );
 		this.emitFront.gravity = 2;
 		this.emitFront.width = game.world.width * 2.5;
 		this.emitFront.minRotation = 0;
 		this.emitFront.maxRotation = 40;
 
-		//Function influenced by: https://phaser.io/examples/v2/particles/snow
-		this.changeWindDirection();
+		//	Function influenced by: https://phaser.io/examples/v2/particles/snow
+		this.change_wind_direction ( );
 
-		//Influenced by: https://phaser.io/examples/v2/particles/snow
+		//	Influenced by: https://phaser.io/examples/v2/particles/snow
 		this.emitBack.start ( false, 22000, 10 );
 		this.emitMid.start ( false, 10000, 30 );
 		this.emitTop.start ( false, 10000, 30 );
@@ -171,7 +171,7 @@ var playState = {
 
 		this.portal = new Portal ( new Vector2 ( 1000, 1000 ) );
 	},
-	update: function ( )
+	update : function ( )
 	{
 		if ( this.intEnemyCounter == 0 )
 		{
@@ -216,8 +216,8 @@ var playState = {
 
 		if ( l === this.intUpdateInterval )
 		{
-			this.changeWindDirection ( );
-			this.intUpdateInterval = Math.floor ( Math.random() * 20) * 60; // 0 - 20sec @ 60fps
+			this.change_wind_direction ( );
+			this.intUpdateInterval = Math.floor ( Math.random ( ) * 20 ) * 60; // 0 - 20sec @ 60fps
 			l = 0;
 		}
 
@@ -249,10 +249,10 @@ var playState = {
 			game.state.start ( 'death' );
 		}
 	},
-	render: function ( ) 
+	render : function ( ) 
 	{
 	},
-	handle_keys: function ( event )
+	handle_keys : function ( event )
 	{
 		switch ( event.keyCode )
 		{
@@ -289,34 +289,33 @@ var playState = {
 		}
 	},
 
-	//Function for the wind direction of leaves, influenced by: https://phaser.io/examples/v2/particles/snow
-	changeWindDirection : function () {
-
+	//	Function for the wind direction of leaves, influenced by: https://phaser.io/examples/v2/particles/snow
+	change_wind_direction : function ( ) 
+	{
 		var multi = Math.floor ( ( max + 200 ) / 4 ),
-			frag = (Math.floor(Math.random() * 100) - multi);
+			frag = ( Math.floor ( Math.random ( ) * 100 ) - multi );
 		max = max + frag;
 
-		if (max > 200) max = 150;
-		if (max < -200) max = -150;
+		if ( max > 200 ) max = 150;
+		if ( max < -200 ) max = -150;
 
-		this.setXSpeed(this.emitBack, max);
-		this.setXSpeed(this.emitMid, max);
-		this.setXSpeed(this.emitTop, max);
-		this.setXSpeed(this.emitFront, max);
+		this.set_x_speed ( this.emitBack, max );
+		this.set_x_speed ( this.emitMid, max );
+		this.set_x_speed ( this.emitTop, max );
+		this.set_x_speed ( this.emitFront, max );
 
 	},
 
-	//Influenced by: https://phaser.io/examples/v2/particles/snow
-	setXSpeed : function (emitter, max) {
-
+	//	Influenced by: https://phaser.io/examples/v2/particles/snow
+	set_x_speed : function ( emitter, max ) 
+	{
 		emitter.setXSpeed ( max - 2, max );
-		emitter.forEachAlive ( this.setParticleXSpeed, this, max );
-
+		emitter.forEachAlive ( this.set_particle_x_speed, this, max );
 	},
 
-	//Influenced by: https://phaser.io/examples/v2/particles/snow
-	setParticleXSpeed : function (particle, max) {
-
-		particle.body.velocity.x = max - Math.floor(Math.random() * 300);
+	//	Influenced by: https://phaser.io/examples/v2/particles/snow
+	set_particle_x_speed : function ( particle, max ) 
+	{
+		particle.body.velocity.x = max - Math.floor ( Math.random ( ) * 300 );
 	}
 };

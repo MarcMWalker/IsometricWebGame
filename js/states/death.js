@@ -2,9 +2,9 @@ var deathState = {
 
 	create : function ( )
 	{
-        var music = playState.musicbattle;
-        music.stop ( );
-        
+		var music = playState.musicbattle;
+		music.stop ( );
+
 		game.stage.backgroundColor = 0xFF0000;
 		game.world.setBounds ( 0, 0, 1920, 1080 );
 		//console.log("Death state working");

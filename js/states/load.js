@@ -1,7 +1,7 @@
 var loadState = {
 
 	//Load game assets before the game starts
-	preload: function ( )
+	preload : function ( )
 	{
 		//Load spritesheet files
 		game.load.spritesheet ( 'knight', 'assets/images/spritesheet-min.png', 360, 308 );
@@ -48,24 +48,24 @@ var loadState = {
 		game.load.image ( 'attackText2', 'assets/images/attack.png');
 		game.load.image ( 'moveText', 'assets/images/movement.png');
 		game.load.image ( 'gameOver', 'assets/images/gameOver.png');
-        
-        //	Load audio files, music taken from: https://www.bensound.com/royalty-free-music/track/birth-of-a-hero
-        //                                    : https://www.epidemicsound.com/track/OQGeEs0hpy
-        //                                    : https://www.zapsplat.com/
+
+		//	Load audio files, music taken from: https://www.bensound.com/royalty-free-music/track/birth-of-a-hero
+		//                                    : https://www.epidemicsound.com/track/OQGeEs0hpy
+		//                                    : https://www.zapsplat.com/
 		game.load.audio('main', 'assets/sound/birthofahero.mp3');
 		game.load.audio('game_over', 'assets/sound/game_over.wav');
-        game.load.audio('battle', 'assets/sound/battle.mp3');
-        
-        game.load.audio('slashSound', 'assets/sound/slash.wav');
-        game.load.audio('portalSound', 'assets/sound/portalSound.mp3');
-        game.load.audio('enemyHit', 'assets/sound/enemyHit.mp3');
-        game.load.audio('hitEnemy', 'assets/sound/hitEnemy.mp3');
-        game.load.audio('swordSwing', 'assets/sound/swordSwing.mp3');
+		game.load.audio('battle', 'assets/sound/battle.mp3');
+
+		game.load.audio('slashSound', 'assets/sound/slash.wav');
+		game.load.audio('portalSound', 'assets/sound/portalSound.mp3');
+		game.load.audio('enemyHit', 'assets/sound/enemyHit.mp3');
+		game.load.audio('hitEnemy', 'assets/sound/hitEnemy.mp3');
+		game.load.audio('swordSwing', 'assets/sound/swordSwing.mp3');
 	},
 
 	create : function ( )
 	{
-		//Start game state 'quote'
+		//	Start game state 'quote'
 		game.state.start ( 'quote' );
 	}
 
