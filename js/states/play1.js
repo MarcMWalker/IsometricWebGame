@@ -25,7 +25,7 @@ var update_interval = 240;
 var l = 0;
 var barWidth;
 
-var playState = {
+var playState1 = {
 	intKeyMask : 0,
 	intPrevMask : 12,
 	intPlayerColour : 0x86bfda,
@@ -55,9 +55,9 @@ var playState = {
 	{
         
         // Start playing music once game starts
-        this.musicbattle = game.add.audio ( 'battle' );
-		this.musicbattle.play ( );
-		this.musicbattle.loopFull ( 0.5 );
+        //this.musicbattle = game.add.audio ( 'battle' );
+		//this.musicbattle.play ( );
+		//this.musicbattle.loopFull ( 0.5 );
         
 		// Create a isoGroups for game, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
 		mapGroup = game.add.group ( );
@@ -81,7 +81,7 @@ var playState = {
 		}
 
 		//	Generate First Wave Of Enemies
-		for ( var i = 0; i < 1; ++i )
+		for ( var i = 0; i < 3; ++i )
 		{
 			var enemy = new Enemy ( new Vector2 ( ( 64 * i + 64 ) << 1, ( 64 * i + 64 ) << 1 ) );
 			enemy.sprite.anchor.set ( 0.5 );
@@ -272,16 +272,16 @@ var playState = {
 		switch ( event.keyCode )
 		{
 			case 37:
-				playState.intKeyMask |= 0x1;
+				playState1.intKeyMask |= 0x1;
 				break;
 			case 38:
-				playState.intKeyMask |= 0x2;
+				playState1.intKeyMask |= 0x2;
 				break;
 			case 39:
-				playState.intKeyMask |= 0x4;
+				playState1.intKeyMask |= 0x4;
 				break;
 			case 40:
-				playState.intKeyMask |= 0x8;
+				playState1.intKeyMask |= 0x8;
 				break;
 		}
 	},
@@ -290,16 +290,16 @@ var playState = {
 		switch ( event.keyCode )
 		{
 			case 37:
-				playState.intKeyMask ^= 0x1;
+				playState1.intKeyMask ^= 0x1;
 				break;
 			case 38:
-				playState.intKeyMask ^= 0x2;
+				playState1.intKeyMask ^= 0x2;
 				break;
 			case 39:
-				playState.intKeyMask ^= 0x4;
+				playState1.intKeyMask ^= 0x4;
 				break;
 			case 40:
-				playState.intKeyMask ^= 0x8;
+				playState1.intKeyMask ^= 0x8;
 				break;
 		}
 	},

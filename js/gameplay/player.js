@@ -110,6 +110,8 @@ class Player
 		if ( !this.bolAttacking )
 		{
 			this.bolAttacking = true;
+            this.swordSwing = game.add.audio ( 'swordSwing' );
+		    this.swordSwing.play ( );
 
 			//	Attack direction
 			var attackDirection = new Vector2 ( 0, 0 );

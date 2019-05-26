@@ -25,12 +25,17 @@ var update_interval = 240;
 var l = 0;
 var barWidth;
 
-var playState = {
+
+//var slash;
+//var portalSound;
+
+var playState2 = {
 	intKeyMask : 0,
 	intPrevMask : 12,
 	intPlayerColour : 0x86bfda,
 	intEnemyCounter : 0,
 	healthBar : null,
+    musicbattle : null,
 	arrEnemies : [],
 	preload: function ( )
 	{
@@ -53,11 +58,11 @@ var playState = {
 	},
 	create: function ( )
 	{
-        
         // Start playing music once game starts
-        this.musicbattle = game.add.audio ( 'battle' );
-		this.musicbattle.play ( );
-		this.musicbattle.loopFull ( 0.5 );
+        //this.musicbattle = game.add.audio ( 'battle' );
+		//this.musicbattle.play ( );
+		//this.musicbattle.loopFull ( 0.5 );
+        
         
 		// Create a isoGroups for game, code influenced by: http://rotates.org/phaser/iso/examples/depth_sorting.htm
 		mapGroup = game.add.group ( );
@@ -81,7 +86,7 @@ var playState = {
 		}
 
 		//	Generate First Wave Of Enemies
-		for ( var i = 0; i < 1; ++i )
+		for ( var i = 0; i < 5; ++i )
 		{
 			var enemy = new Enemy ( new Vector2 ( ( 64 * i + 64 ) << 1, ( 64 * i + 64 ) << 1 ) );
 			enemy.sprite.anchor.set ( 0.5 );
@@ -193,6 +198,7 @@ var playState = {
 				portal.reset ( );		
 
 			portal.animate ( );
+            
 
 			var dist = player.position.sub ( portal.position );
 			var distSqr = dist.dot ( dist );
@@ -200,7 +206,6 @@ var playState = {
 			if ( distSqr < 10000 )
 			{
 				console.log ( "Transition" );
-                game.state.start ( 'play1' );
 			}
 		}
 
@@ -262,6 +267,8 @@ var playState = {
 		{
 			this.arrEnemies = [];	//	Empty enemies array
 			game.state.start ( 'death' );
+            
+            
 		}
 	},
 	render: function ( ) 
@@ -272,16 +279,16 @@ var playState = {
 		switch ( event.keyCode )
 		{
 			case 37:
-				playState.intKeyMask |= 0x1;
+				playState2.intKeyMask |= 0x1;
 				break;
 			case 38:
-				playState.intKeyMask |= 0x2;
+				playState2.intKeyMask |= 0x2;
 				break;
 			case 39:
-				playState.intKeyMask |= 0x4;
+				playState2.intKeyMask |= 0x4;
 				break;
 			case 40:
-				playState.intKeyMask |= 0x8;
+				playState2.intKeyMask |= 0x8;
 				break;
 		}
 	},
@@ -290,16 +297,16 @@ var playState = {
 		switch ( event.keyCode )
 		{
 			case 37:
-				playState.intKeyMask ^= 0x1;
+				playState2.intKeyMask ^= 0x1;
 				break;
 			case 38:
-				playState.intKeyMask ^= 0x2;
+				playState2.intKeyMask ^= 0x2;
 				break;
 			case 39:
-				playState.intKeyMask ^= 0x4;
+				playState2.intKeyMask ^= 0x4;
 				break;
 			case 40:
-				playState.intKeyMask ^= 0x8;
+				playState2.intKeyMask ^= 0x8;
 				break;
 		}
 	},
