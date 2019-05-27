@@ -1,5 +1,8 @@
 class Player 
 {
+	/*
+	 *	Construct player at position, and set colour
+	 * */
 	constructor ( position, colour )
 	{
 		//Create player
@@ -40,16 +43,22 @@ class Player
 		this.intHealth = 200;
 	}
 
-	//	Return position of this.in x,y location
+	/*
+	 *	Return player position
+	 * */
 	get position ( )
 	{
 		return new Vector2 ( this.sprite.isoX, this.sprite.isoY );
 	}
 
+	/*
+	 *	Animate and move the player
+	 * */
 	animate ( intKeyMask )
 	{
 		if ( !this.bolAttacking )
 		{
+			//	Determine movement direction
 			switch ( intKeyMask )
 			{
 					//	Idle
@@ -105,6 +114,9 @@ class Player
 		}
 	}
 
+	/*
+	 *	Attack enemies that are close to the player 
+	 * */
 	handle_attack ( prevMask, enemies )
 	{
 		if ( !this.bolAttacking )
@@ -116,10 +128,7 @@ class Player
 			//	Attack direction
 			var attackDirection = new Vector2 ( 0, 0 );
 
-			/*
-			 * 	Controls direction of attack and which animation 
-			 * 	to use in both straight and diagonal directions for player
-			 */
+			//	Determine attack animation, based on previous movement direction	
 			switch ( prevMask )
 			{
 					//	Straights
@@ -169,10 +178,10 @@ class Player
 				var dot = attackDirection.dot ( dist );
 				var distSqr = dist.dot ( dist );
 
-				//	If dot and distSqr parameters met, this.is within range of attack and so enemy loses health
+				//	Check if the enemy is in player attack range
 				if ( dot > 0 && distSqr < playState.player.intAttackRange * playState.player.intAttackRange )
 				{
-					//Lose health and change colour tint of attacked enemy
+					//	Deduct enemy health
 					enemy.intHealth -= 10;
 				}
 			} );
